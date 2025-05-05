@@ -1,0 +1,117 @@
+generator client {
+    provider = "prisma-client-js"
+  // output   = "./generated"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String    @id
+  name                String
+  email               String    @unique
+  emailVerified       Boolean
+  image               String?
+  createdAt           DateTime
+  updatedAt           DateTime
+  faultsMachinesNotes Note[]
+  accounts            Account[]
+  sessions            Session[]
+
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
+}
+
+model Machines {
+  id           String        @id @default(uuid())
+  name         String        @unique
+  updateAt     DateTime      @updatedAt
+  notes        Note[]
+  socketErrors SocketError[]
+  subscribers  Subscriber[]
+  topTenToday  TopTenToday[]
+}
+
+model Subscriber {
+  id        Int      @id @default(autoincrement())
+  machineId String
+  userId    String
+  errorId   Int
+  email     String
+  createdAt DateTime @default(now())
+  machine   Machines @relation(fields: [machineId], references: [id], onDelete: Cascade)
+}
+
+model TopTenToday {
+  id         Int      @id @default(autoincrement())
+  machineId  String
+  errorId    Int
+  count      Int
+  measuredAt DateTime
+  machine    Machines @relation(fields: [machineId], references: [id], onDelete: Cascade)
+}
+
+model Note {
+  id          Int      @id @default(autoincrement())
+  alertId     Int 
+  alertDescription String
+  machineId   String
+  createdAt   DateTime @default(now())
+  updateAt    DateTime @updatedAt
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  machine     Machines @relation(fields: [machineId], references: [id], onDelete: Cascade)
+}
+
+model SocketError {
+  id         Int      @id @default(autoincrement())
+  machineId  String
+  message    String
+  occurredAt DateTime @default(now())
+  machine    Machines @relation(fields: [machineId], references: [id], onDelete: Cascade)
+}
