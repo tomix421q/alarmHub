@@ -2,48 +2,38 @@ import {
 	type ErrorResponse,
 	type MachineDbType,
 	type SuccessResponse
-} from './../../../../lib/utils/types/machineTypes';
+} from '../../../../lib/utils/types/machineTypes';
 import { fail, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
 import prismaClient from '$lib/server/prisma';
 import { addNoteSchema } from '$lib/utils/zod/zodclient';
-import { goto } from '$app/navigation';
+import { getMachineNotesResponse, loadAlertsCsvByName } from '$lib/utils/serverHelp';
 
 let MACHINENAME: string;
+let machineAlertsListMap: Map<number, string>;
 
-export const load: PageServerLoad = async ({ params }) => {
-	MACHINENAME = params.id;
-	if (!MACHINENAME) goto('/');
+export const load: PageServerLoad = async ({ params, url }) => {
+	MACHINENAME = params.name;
+	machineAlertsListMap = loadAlertsCsvByName(MACHINENAME);
+	const page = Number(url.searchParams.get('page') ?? '1');
+	const limit = 10;
 
-	let dbdata: ErrorResponse | SuccessResponse<MachineDbType>;
+	const filters = {
+		alertId: url.searchParams.get('alertId') ? Number(url.searchParams.get('alertId')) : undefined,
+		user: url.searchParams.get('user') ?? undefined,
+		desc: url.searchParams.get('desc') ?? undefined,
+		from: url.searchParams.get('from') ?? undefined,
+		to: url.searchParams.get('to') ?? undefined
+	};
 
-	const findMachine = await prismaClient.machines.findUnique({
-		where: { name: MACHINENAME },
-		include: {
-			notes: {
-				orderBy: {
-					updateAt: 'desc'
-				},
-				include: {
-					user: true
-				}
-			}
-		}
+	const dbdata = await getMachineNotesResponse({
+		machineName: params.name,
+		filters,
+		page,
+		limit
 	});
-	if (!findMachine) {
-		dbdata = {
-			success: false,
-			error: 'Machine in db not found...'
-		};
-	} else {
-		dbdata = {
-			success: true,
-			message: `Data from db machine ${MACHINENAME}`,
-			data: findMachine
-		};
-	}
-	// console.log(dbdata);
+
 	return { dbdata, MACHINENAME };
 };
 
@@ -55,6 +45,18 @@ export const actions: Actions = {
 			alertId: formDataRaw.alertId ? Number(formDataRaw.alertId) : undefined
 		};
 		const parseZod = addNoteSchema.safeParse(formData);
+
+		if (parseZod.data?.alertId && !machineAlertsListMap!.has(parseZod.data.alertId)) {
+			return fail(400, {
+				success: false,
+				error: `Alert ID '${formData.alertId}' not found in alert list.`,
+				isFormError: true,
+				fieldErrors: {
+					alertId: 'Invalid alert ID.'
+				},
+				values: formData
+			} as ErrorResponse);
+		}
 
 		if (!parseZod.success) {
 			const fieldErrors = parseZod.error.errors.reduce(

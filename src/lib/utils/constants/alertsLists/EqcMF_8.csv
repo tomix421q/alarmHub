@@ -1,0 +1,726 @@
+DB100,X0.0;1_Emergency Stop Fault
+DB100,X0.1;2_Air Pressure Low
+DB100,X0.2;3_Bottom Tool Locker signal is missing when not in ToolChange Mode
+DB100,X0.3;4_Bottom Tool Missing when not in ToolChange Mode
+DB100,X0.4;5_Top Tool Missing when not in ToolChange Mode
+DB100,X0.5;6_Support Pillar is not Installed
+DB100,X0.6;7_Locker lose while not in toolchange mode
+DB100,X0.7;8_MoldNumber Miss Match
+DB100,X1.0;9_SEW FC Fault
+DB100,X1.1;10_Braking Resistor Overtemperature
+DB100,X1.2;11_FixCylinder is not Fwd when not in ToolChange Mode
+DB100,X1.3;12_Sew UP Limit Active
+DB100,X1.4;13_Remote Tool Communication Fault
+DB100,X1.5;14_WaterCoolMachine is OFF
+DB100,X1.6;15_ReadyHeatingNotReached
+DB100,X1.7;16_Tempature too hot must be checked
+DB100,X2.0;17_SEW Not Ready
+DB100,X2.1;18_MainLightCurtain Not Ready
+DB100,X2.2;19_Down Mould lock Valve Feedback Fault
+DB100,X2.3;20_Down Mould lock Valve No Fault
+DB100,X2.4;21_Down Mould lock Valve Forward Overtime
+DB100,X2.5;22_Down Mould lock Valve Backward Overtime
+DB100,X2.6;23_Top Table Brake Valve Feedback Fault
+DB100,X2.7;24_Reserve 3
+DB100,X3.0;25_Top Table Brake Valve Forward Overtime
+DB100,X3.1;26_Top Table Brake Valve Backward Overtime
+DB100,X3.2;27_Main Locker Feedback Fault
+DB100,X3.3;28_Main Locker No Feedback
+DB100,X3.4;29_Main Locker Forward Overtime
+DB100,X3.5;30_Main Locker Backward Overtime
+DB100,X3.6;31_Anti Drop Cylinder  Feedback Fault
+DB100,X3.7;32_Anti Drop Cylinder No Feedback
+DB100,X4.0;33_Anti Drop Cylinder Forward Overtime
+DB100,X4.1;34_Anti Drop Cylinder Backward Overtime
+DB100,X4.2;35_ToolConnectionCylinder Feedback Fault
+DB100,X4.3;36_ToolConnectionCylinder No Feedback
+DB100,X4.4;37_ToolConnectionCylinder Forward Overtime
+DB100,X4.5;38_ToolConnectionCylinder Backward Overtime
+DB100,X4.6;39_Spare8
+DB100,X4.7;40_Emergency Need Reset
+DB100,X5.0;41_MatainDoor Need Reset
+DB100,X5.1;42_MainLightCurtain Need Reset
+DB100,X5.2;43_Conveyer Light Need Reset
+DB100,X5.3;44_Rollor Door Close Pos1 fault
+DB100,X5.4;45_Rollor Door Close Pos2 fault
+DB100,X5.5;46_Rollor Door Open fault
+DB100,X5.6;47_Rollor Door Status Error
+DB100,X5.7;48_Reserve
+DB100,X6.0;49_Reserve
+DB100,X6.1;50_Robot E-Stoped
+DB100,X6.2;51_Robot A-Stoped
+DB100,X6.3;52_Robot not in AutoMode
+DB100,X6.4;53_Robot not Running
+DB100,X6.5;54_Robot Error
+DB100,X6.6;55_Robot LostPart
+DB100,X6.7;56_Robot VacuumLow
+DB100,X7.0;58_Robot Status Not Ok
+DB100,X7.1;57_Robot Gripper is not Match the Conveyer Mould and PressTool
+DB100,X7.2;59_The LowerTool do not sens the product
+DB100,X7.3;60_UpTool Cliper do not release
+DB100,X7.4;61_UpTool Vacuum do not release
+DB100,X7.5;62_UpTool do not in home position
+DB100,X7.6;63_LowerTool do not in home position
+DB100,X7.7;64_UpTool Take Product up Failure
+DB100,X8.0;65_Robot Not IN HomePOS
+DB100,X8.1;66_Reserve
+DB100,X8.2;67_LowerToolLiftCylinder Feedback Fault
+DB100,X8.3;68_LowerToolLiftCylinder No Feedback
+DB100,X8.4;69_LowerToolLiftCylinder Forward Overtime
+DB100,X8.5;70_LowerToolLiftCylinder Backward Overtime
+DB100,X8.6;71_Glue Machine Control Power is not On
+DB100,X8.7;72_Glue Machine is not Ready
+DB100,X9.0;73_Glue Machine Error
+DB100,X9.1;74_Glue Machine not in auto
+DB100,X9.2;75_Glue Machine have warning
+DB100,X9.3;76_Glue Machine temperature is not reach
+DB100,X9.4;77_Glue Machine CompressAir is not Ok
+DB100,X9.5;78_Glue Machine Estop Button is not Ok
+DB100,X9.6;79_Tool Not Homed
+DB100,X9.7;80_Machine Not Homed
+DB100,X10.0;81_Down Mould do not sens Product
+DB100,X10.1;82_Down Mould Vaccum Not Ok
+DB100,X10.2;83_Down Mould do not sens Product after UpDown slider Backward
+DB100,X10.3;84_Down Mould Product Sensor Status Error
+DB100,X10.4;85_Down Mould Already have a Product
+DB100,X10.5;86_Robot Put Product at TransBelt Failure
+DB100,X10.6;87_LowerTool Cliper do not Closed
+DB100,X10.7;88_LowerTool do not ready for start
+DB100,X28.0;149_Reserve
+DB100,X28.1;150_Reserve
+DB100,X28.2;151_Reserve
+DB100,X28.3;152_Reserve
+DB100,X28.4;153_Reserve
+DB100,X28.5;154_Reserve
+DB100,X28.6;155_Reserve
+DB100,X28.7;156_Reserve
+DB100,X29.0;157_Reserve
+DB100,X29.1;158_Reserve
+DB100,X29.2;159_Reserve
+DB100,X29.3;160_Reserve
+DB100,X29.4;161_Reserve
+DB100,X29.5;162_Reserve
+DB100,X29.6;163_Reserve
+DB100,X29.7;164_Reserve
+DB100,X30.0;165_Reserve
+DB100,X30.1;166_Reserve
+DB100,X30.2;167_Reserve
+DB100,X30.3;168_Reserve
+DB100,X30.4;169_Reserve
+DB100,X30.5;170_Reserve
+DB100,X30.6;171_Reserve
+DB100,X30.7;172_Reserve
+DB100,X31.0;173_Reserve
+DB100,X31.1;174_Reserve
+DB100,X31.2;175_Reserve
+DB100,X31.3;176_Reserve
+DB100,X31.4;177_Reserve
+DB100,X31.5;178_Reserve
+DB100,X31.6;179_Reserve
+DB100,X31.7;180_Reserve
+DB100,X160.0;181_No.1 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X160.1;182_No.1 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X160.2;183_No.1 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X160.3;184_No.1 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X160.4;185_No.2 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X160.5;186_No.2 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X160.6;187_No.2 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X160.7;188_No.2 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X161.0;189_No.3 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X161.1;190_No.3 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X161.2;191_No.3 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X161.3;192_No.3 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X161.4;193_No.4 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X161.5;194_No.4 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X161.6;195_No.4 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X161.7;196_No.4Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X162.0;197_No.5 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X162.1;198_No.5 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X162.2;199_No.5 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X162.3;200_No.5 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X162.4;201_No.6 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X162.5;202_No.6 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X162.6;203_No.6 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X162.7;204_No.6 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X163.0;205_No.7 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X163.1;206_No.7 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X163.2;207_No.7 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X163.3;208_No.7 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X163.4;209_No.8 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X163.5;210_No.8 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X163.6;211_No.8 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X163.7;212_No.8 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X164.0;213_No.9 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X164.1;214_No.9 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X164.2;215_No.9 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X164.3;216_No.9 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X164.4;217_No.10 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X164.5;218_No.10 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X164.6;219_No.10 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X164.7;220_No.10 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X165.0;221_No.11 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X165.1;222_No.11 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X165.2;223_No.11 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X165.3;224_No.11 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X165.4;225_No.12 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X165.5;226_No.12 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X165.6;227_No.12 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X165.7;228_No.12 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X166.0;229_No.13 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X166.1;230_No.13 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X166.2;231_No.13 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X166.3;232_No.13 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X166.4;233_No.14 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X166.5;234_No.14 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X166.6;235_No.14 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X166.7;236_No.14 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X167.0;237_No.15 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X167.1;238_No.15 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X167.2;239_No.15 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X167.3;240_No.15 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X167.4;241_No.16 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X167.5;242_No.16 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X167.6;243_No.16 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X167.7;244_No.16 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X168.0;245_No.17 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X168.1;246_No.17 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X168.2;247_No.17 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X168.3;248_No.17 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X168.4;249_No.18 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X168.5;250_No.18 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X168.6;251_No.18 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X168.7;252_No.18 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X169.0;253_No.19 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X169.1;254_No.19 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X169.2;255_No.19 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X169.3;256_No.19 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X169.4;257_No.20 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X169.5;258_No.20 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X169.6;259_No.20 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X169.7;260_No.20 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X170.0;261_No.21 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X170.1;262_No.21 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X170.2;263_No.21 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X170.3;264_No.21 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X170.4;265_No.22 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X170.5;266_No.22 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X170.6;267_No.22 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X170.7;268_No.22 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X171.0;269_No.23 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X171.1;270_No.23 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X171.2;271_No.23 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X171.3;272_No.23 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X171.4;273_No.24 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X171.5;274_No.24 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X171.6;275_No.24 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X171.7;276_No.24 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X172.0;277_No.25 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X172.1;278_No.25 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X172.2;279_No.25 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X172.3;280_No.25 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X172.4;281_No.26 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X172.5;282_No.26 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X172.6;283_No.26 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X172.7;284_No.26 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X173.0;285_No.27 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X173.1;286_No.27 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X173.2;287_No.27 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X173.3;288_No.27 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X173.4;289_No.28 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X173.5;290_No.28 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X173.6;291_No.28 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X173.7;292_No.28 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X174.0;293_No.29 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X174.1;294_No.29 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X174.2;295_No.29 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X174.3;296_No.29 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X174.4;297_No.30 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X174.5;298_No.30 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X174.6;299_No.30 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X174.7;300_No.30 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X175.0;301_No.31 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X175.1;302_No.31 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X175.2;303_No.31 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X175.3;304_No.31 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X175.4;305_No.32 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X175.5;306_No.32 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X175.6;307_No.32 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X175.7;308_No.32 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X176.0;309_No.33 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X176.1;310_No.33 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X176.2;311_No.33 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X176.3;312_No.33 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X176.4;313_No.34 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X176.5;314_No.34 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X176.6;315_No.34 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X176.7;316_No.34 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X177.0;317_No.35 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X177.1;318_No.35 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X177.2;319_No.35 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X177.3;320_No.35 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X177.4;321_No.36 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X177.5;322_No.36 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X177.6;323_No.36 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X177.7;324_No.36 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X178.0;325_No.37 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X178.1;326_No.37 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X178.2;327_No.37 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X178.3;328_No.37 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X178.4;329_No.38 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X178.5;330_No.38 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X178.6;331_No.38 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X178.7;332_No.38 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X179.0;333_No.39 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X179.1;334_No.39 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X179.2;335_No.39 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X179.3;336_No.39 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X179.4;337_No.40 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X179.5;338_No.40 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X179.6;339_No.40 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X179.7;340_No.40 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X180.0;341_No.41 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X180.1;342_No.41 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X180.2;343_No.41 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X180.3;344_No.41 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X180.4;345_No.42 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X180.5;346_No.42 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X180.6;347_No.42 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X180.7;348_No.42 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X181.0;349_No.43 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X181.1;350_No.43 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X181.2;351_No.43 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X181.3;352_No.43 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X181.4;353_No.44 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X181.5;354_No.44 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X181.6;355_No.44 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X181.7;356_No.44 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X182.0;357_No.45 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X182.1;358_No.45 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X182.2;359_No.45 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X182.3;360_No.45 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X182.4;361_No.46 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X182.5;362_No.46 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X182.6;363_No.46 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X182.7;364_No.46 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X183.0;365_No.47 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X183.1;366_No.47 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X183.2;367_No.47 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X183.3;368_No.47 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X183.4;369_No.48 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X183.5;370_No.48 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X183.6;371_No.48 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X183.7;372_No.48 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X184.0;373_No.49 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X184.1;374_No.49 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X184.2;375_No.49 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X184.3;376_No.49 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X184.4;377_No.50 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X184.5;378_No.50 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X184.6;379_No.50 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X184.7;380_No.50 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X185.0;381_No.51 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X185.1;382_No.51 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X185.2;383_No.51 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X185.3;384_No.51 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X185.4;385_No.52 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X185.5;386_No.52 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X185.6;387_No.52 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X185.7;388_No.52 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X186.0;389_No.53 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X186.1;390_No.53 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X186.2;391_No.53 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X186.3;392_No.53 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X186.4;393_No.54 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X186.5;394_No.54 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X186.6;395_No.54 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X186.7;396_No.54 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X187.0;397_No.55 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X187.1;398_No.55 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X187.2;399_No.55 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X187.3;400_No.55 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X187.4;401_No.56 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X187.5;402_No.56 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X187.6;403_No.56 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X187.7;404_No.56 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X188.0;405_No.57 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X188.1;406_No.57 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X188.2;407_No.57 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X188.3;408_No.57 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X188.4;409_No.58 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X188.5;410_No.58 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X188.6;411_No.58 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X188.7;412_No.58 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X189.0;413_No.59 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X189.1;414_No.59 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X189.2;415_No.59 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X189.3;416_No.59 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X189.4;417_No.60 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X189.5;418_No.60 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X189.6;419_No.60 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X189.7;420_No.60 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X190.0;421_No.61 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X190.1;422_No.61 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X190.2;423_No.61 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X190.3;424_No.61 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X190.4;425_No.62 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X190.5;426_No.62 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X190.6;427_No.62 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X190.7;428_No.62 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X191.0;429_No.63 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X191.1;430_No.63 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X191.2;431_No.63 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X191.3;432_No.63 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X191.4;433_No.64 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X191.5;434_No.64 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X191.6;435_No.64 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X191.7;436_No.64 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X192.0;437_No.65 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X192.1;438_No.65 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X192.2;439_No.65 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X192.3;440_No.65 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X192.4;441_No.66 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X192.5;442_No.66 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X192.6;443_No.66 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X192.7;444_No.66 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X193.0;445_No.67 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X193.1;446_No.67 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X193.2;447_No.67 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X193.3;448_No.67 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X193.4;449_No.68 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X193.5;450_No.68 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X193.6;451_No.68 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X193.7;452_No.68 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X194.0;453_No.69 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X194.1;454_No.69 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X194.2;455_No.69 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X194.3;456_No.69 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X194.4;457_No.70 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X194.5;458_No.70 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X194.6;459_No.70 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X194.7;460_No.70 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X195.0;461_No.71 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X195.1;462_No.71 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X195.2;463_No.71 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X195.3;464_No.71 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X195.4;465_No.72 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X195.5;466_No.72 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X195.6;467_No.72 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X195.7;468_No.72 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X196.0;469_No.73 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X196.1;470_No.73 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X196.2;471_No.73 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X196.3;472_No.73 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X196.4;473_No.74 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X196.5;474_No.74 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X196.6;475_No.74 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X196.7;476_No.74 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X197.0;477_No.75 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X197.1;478_No.75 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X197.2;479_No.75 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X197.3;480_No.75 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X197.4;481_No.76 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X197.5;482_No.76 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X197.6;483_No.76 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X197.7;484_No.76 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X198.0;485_No.77 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X198.1;486_No.77 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X198.2;487_No.77 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X198.3;488_No.77 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X198.4;489_No.78 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X198.5;490_No.78 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X198.6;491_No.78 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X198.7;492_No.78 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X199.0;493_No.79 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X199.1;494_No.79 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X199.2;495_No.79 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X199.3;496_No.79 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X199.4;497_No.80 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X199.5;498_No.80 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X199.6;499_No.80 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X199.7;500_No.80 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X200.0;501_No.81 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X200.1;502_No.81 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X200.2;503_No.81 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X200.3;504_No.81 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X200.4;505_No.82 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X200.5;506_No.82 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X200.6;507_No.82 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X200.7;508_No.82 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X201.0;509_No.83 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X201.1;510_No.83 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X201.2;511_No.83 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X201.3;512_No.83 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X201.4;513_No.84 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X201.5;514_No.84 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X201.6;515_No.84 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X201.7;516_No.84 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X202.0;517_No.85 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X202.1;518_No.85 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X202.2;519_No.85 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X202.3;520_No.85 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X202.4;521_No.86 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X202.5;522_No.86 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X202.6;523_No.86 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X202.7;524_No.86 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X203.0;525_No.87 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X203.1;526_No.87 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X203.2;527_No.87 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X203.3;528_No.87 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X203.4;529_No.88 Mold cylinders All Sensors Lighted (Check related cylinders and related sensors)
+DB100,X203.5;530_No.88 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
+DB100,X203.6;531_No.88 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
+DB100,X203.7;532_No.88 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
+DB100,X11.0;89_Main Cycle Sequence is paused
+DB100,X11.1;90_Main Cycle Sequence is Stoped
+DB100,X11.2;91_Main Cycle Sequence is In StepMode
+DB100,X11.3;92_Machine is In Auto Heating Test Mode
+DB100,X11.4;93_Machine is In  Sim AutoMode
+DB100,X11.5;94_Machine is in PressMachine Mode
+DB100,X11.6;95_Oil Pump1 Feedback Nok
+DB100,X11.7;96_Oil Pump2 Feedback Nok
+DB100,X12.0;97_Oil Pump3 Feedback Nok
+DB100,X12.1;98_Oil Pump4 Feedback Nok
+DB100,X12.2;99_Robot Gripper Product Sensor Status Error
+DB100,X12.3;100_PlugConnectionCylinder1 Feedback Fault
+DB100,X12.4;101_PlugConnectionCylinder1 No Feedback
+DB100,X12.5;102_PlugConnectionCylinder1 Forward Overtime
+DB100,X12.6;103_PlugConnectionCylinder1 Backward Overtime
+DB100,X12.7;104_ConveyerLocker Feedback Fault
+DB100,X13.0;105_ConveyerLocker No Feedback
+DB100,X13.1;106_ConveyerLocker Forward Overtime
+DB100,X13.2;107_ConveyerLocker Backward Overtime
+DB100,X13.3;108_Glue is Empty Please Change a New GlueBag
+DB100,X13.4;109_Positioning tooling no homeposition
+DB100,X13.5;110_Alignment Tool not at homepostion
+DB100,X13.6;111_The top vacuum is released that failed
+DB100,X13.7;112_Top Vacuum is failed
+DB100,X14.0;113_ChangeTool_CheckPostion is Failed
+DB100,X14.1;114_Step 1 Timeout, please check the step sequence conditions
+DB100,X14.2;115_Step 2 Timeout, please check the step sequence conditions
+DB100,X14.3;116_Step 3 Timeout, please check the step sequence conditions
+DB100,X14.4;117_Step 4 Timeout, please check the step sequence conditions
+DB100,X14.5;118_Step 5 Timeout, please check the step sequence conditions
+DB100,X14.6;119_Step 6 Timeout, please check the step sequence conditions
+DB100,X14.7;120_Step 7 Timeout, please check the step sequence conditions
+DB100,X15.0;121_Step 8 Timeout, please check the step sequence conditions
+DB100,X15.1;122_Step 9 Timeout, please check the step sequence conditions
+DB100,X15.2;123_Step 10 Timeout, please check the step sequence conditions
+DB100,X15.3;124_Step 11 Timeout, please check the step sequence conditions
+DB100,X15.4;125_Step 12 Timeout, please check the step sequence conditions
+DB100,X15.5;126_Step 13 Timeout, please check the step sequence conditions
+DB100,X15.6;127_Step 14 Timeout, please check the step sequence conditions
+DB100,X15.7;128_Step 15 Timeout, please check the step sequence conditions
+DB100,X16.0;129_Step 16 Timeout, please check the step sequence conditions
+DB100,X16.1;130_Shifttable Cylinder Feedback Fault
+DB100,X16.2;131_Shifttable  Cylinder No Feedback
+DB100,X16.3;132_Shifttable Forward Overtime
+DB100,X16.4;133_Shifttable  Backward Overtime
+DB100,X16.5;134_Shifttable Cylinder Lock1 Feedback Fault
+DB100,X16.6;135_Shifttable  Cylinder Lock1 No Feedback
+DB100,X16.7;136_Shifttable Forward Lock1 Overtime
+DB100,X17.0;137_Shifttable  Backward Lock1 Overtime
+DB100,X17.1;138_Shifttable Cylinder Lock2 Feedback Fault
+DB100,X17.2;139_Shifttable  Cylinder Lock2 No Feedback
+DB100,X17.3;140_Shifttable Forward Lock2 Overtime
+DB100,X17.4;141_Shifttable  Backward Lock2 Overtime
+DB100,X17.5;142_Cooler Machine is not OFF
+DB100,X17.6;143_Spreading time is too long
+DB100,X17.7;144_The temperature probe needs to be cleaned
+DB100,X18.0;145_Reserve
+DB100,X18.1;146_Reserve
+DB100,X18.2;147_Reserve
+DB100,X18.3;148_Reserve
+DB100,X248.0;533_Temperature 1 High High Alarm
+DB100,X248.1;534_Temperature 1 High Alarm
+DB100,X248.2;535_Temperature 1 Low Alarm
+DB100,X248.3;536_Temperature 1 Low Low Alarm
+DB100,X248.4;537_Temperature 2 High High Alarm
+DB100,X248.5;538_Temperature 2 High Alarm
+DB100,X248.6;539_Temperature 2 Low Alarm
+DB100,X248.7;540_Temperature 2 Low Low Alarm
+DB100,X249.0;541_Temperature 3 High High Alarm
+DB100,X249.1;542_Temperature 3 High Alarm
+DB100,X249.2;543_Temperature 3 Low Alarm
+DB100,X249.3;544_Temperature 3 Low Low Alarm
+DB100,X249.4;545_Temperature 4 High High Alarm
+DB100,X249.5;546_Temperature 4 High Alarm
+DB100,X249.6;547_Temperature 4 Low Alarm
+DB100,X249.7;548_Temperature 4 Low Low Alarm
+DB100,X250.0;549_Temperature 5 High High Alarm
+DB100,X250.1;550_Temperature 5 High Alarm
+DB100,X250.2;551_Temperature 5 Low Alarm
+DB100,X250.3;552_Temperature 5 Low Low Alarm
+DB100,X250.4;553_Temperature 6 High High Alarm
+DB100,X250.5;554_Temperature 6 High Alarm
+DB100,X250.6;555_Temperature 6 Low Alarm
+DB100,X250.7;556_Temperature 6 Low Low Alarm
+DB100,X251.0;557_Temperature 7 High High Alarm
+DB100,X251.1;558_Temperature 7 High Alarm
+DB100,X251.2;559_Temperature 7 Low Alarm
+DB100,X251.3;560_Temperature 7 Low Low Alarm
+DB100,X251.4;561_Temperature 8 High High Alarm
+DB100,X251.5;562_Temperature 8 High Alarm
+DB100,X251.6;563_Temperature 8 Low Alarm
+DB100,X251.7;564_Temperature 8 Low Low Alarm
+DB100,X261.0;565_Main Sequence Step 1 Condition Doesn't Reach
+DB100,X261.1;566_Main Sequence Step 2 Condition Doesn't Reach
+DB100,X261.2;567_Main Sequence Step 3 Condition Doesn't Reach
+DB100,X261.3;568_Main Sequence Step 4 Condition Doesn't Reach
+DB100,X261.4;569_Main Sequence Step 5 Condition Doesn't Reach
+DB100,X261.5;570_Main Sequence Step 6 Condition Doesn't Reach
+DB100,X261.6;571_Main Sequence Step 7 Condition Doesn't Reach
+DB100,X261.7;572_Main Sequence Step 8 Condition Doesn't Reach
+DB100,X260.0;573_Main Sequence Step 9 Condition Doesn't Reach
+DB100,X260.1;574_Main Sequence Step 10 Condition Doesn't Reach
+DB100,X260.2;575_Main Sequence Step 11 Condition Doesn't Reach
+DB100,X260.3;576_Main Sequence Step 12 Condition Doesn't Reach
+DB100,X260.4;577_Main Sequence Step 13 Condition Doesn't Reach
+DB100,X260.5;578_Main Sequence Step 14 Condition Doesn't Reach
+DB100,X260.6;579_Main Sequence Step 15 Condition Doesn't Reach
+DB100,X260.7;580_Main Sequence Step 16 Condition Doesn't Reach
+DB100,X259.0;581_Main Sequence Step 17 Condition Doesn't Reach
+DB100,X259.1;582_Main Sequence Step 18 Condition Doesn't Reach
+DB100,X259.2;583_Main Sequence Step 19 Condition Doesn't Reach
+DB100,X259.3;584_Main Sequence Step 20 Condition Doesn't Reach
+DB100,X259.4;585_Main Sequence Step 21 Condition Doesn't Reach
+DB100,X259.5;586_Main Sequence Step 22 Condition Doesn't Reach
+DB100,X259.6;587_Main Sequence Step 23 Condition Doesn't Reach
+DB100,X259.7;588_Main Sequence Step 24 Condition Doesn't Reach
+DB100,X258.0;589_Main Sequence Step 25 Condition Doesn't Reach
+DB100,X258.1;590_Main Sequence Step 26 Condition Doesn't Reach
+DB100,X258.2;591_Main Sequence Step 27 Condition Doesn't Reach
+DB100,X258.3;592_Main Sequence Step 28 Condition Doesn't Reach
+DB100,X258.4;593_Main Sequence Step 29 Condition Doesn't Reach
+DB100,X258.5;594_Main Sequence Step 30 Condition Doesn't Reach
+DB100,X258.6;595_Main Sequence Step 31 Condition Doesn't Reach
+DB100,X258.7;596_Main Sequence Step 32 Condition Doesn't Reach
+DB100,X265.0;597_Load Tool Sequence Step 1 Condition Doesn't Reach
+DB100,X265.1;598_Load Tool Sequence Step 2 Condition Doesn't Reach
+DB100,X265.2;599_Load Tool Sequence Step 3 Condition Doesn't Reach
+DB100,X265.3;600_Load Tool Sequence Step 4 Condition Doesn't Reach
+DB100,X265.4;601_Load Tool Sequence Step 5 Condition Doesn't Reach
+DB100,X265.5;602_Load Tool Sequence Step 6 Condition Doesn't Reach
+DB100,X265.6;603_Load Tool Sequence Step 7 Condition Doesn't Reach
+DB100,X265.7;604_Load Tool Sequence Step 8 Condition Doesn't Reach
+DB100,X264.0;605_Load Tool  Sequence Step 9 Condition Doesn't Reach
+DB100,X264.1;606_Load Tool Sequence Step 10 Condition Doesn't Reach
+DB100,X264.2;607_Load Tool Sequence Step 11 Condition Doesn't Reach
+DB100,X264.3;608_Load Tool Sequence Step 12 Condition Doesn't Reach
+DB100,X264.4;609_Load Tool Sequence Step 13 Condition Doesn't Reach
+DB100,X264.5;610_Load Tool Sequence Step 14 Condition Doesn't Reach
+DB100,X264.6;611_Load Tool Sequence Step 15 Condition Doesn't Reach
+DB100,X264.7;612_Load Tool Sequence Step 16 Condition Doesn't Reach
+DB100,X263.0;613_Load Tool Sequence Step 17 Condition Doesn't Reach
+DB100,X263.1;614_Load Tool Sequence Step 18 Condition Doesn't Reach
+DB100,X263.2;615_Load Tool Sequence Step 19 Condition Doesn't Reach
+DB100,X263.3;616_Load Tool Sequence Step 20 Condition Doesn't Reach
+DB100,X263.4;617_Load Tool Sequence Step 21 Condition Doesn't Reach
+DB100,X263.5;618_Load Tool Sequence Step 22 Condition Doesn't Reach
+DB100,X263.6;619_Load Tool Sequence Step 23 Condition Doesn't Reach
+DB100,X263.7;620_Load Tool Sequence Step 24 Condition Doesn't Reach
+DB100,X262.0;621_Load Tool Sequence Step 25 Condition Doesn't Reach
+DB100,X262.1;622_Load Tool Sequence Step 26 Condition Doesn't Reach
+DB100,X262.2;623_Load Tool Sequence Step 27 Condition Doesn't Reach
+DB100,X262.3;624_Load Tool Sequence Step 28 Condition Doesn't Reach
+DB100,X262.4;625_Load Tool Sequence Step 29 Condition Doesn't Reach
+DB100,X262.5;626_Load Tool Sequence Step 30 Condition Doesn't Reach
+DB100,X262.6;627_Load Tool Sequence Step 31 Condition Doesn't Reach
+DB100,X262.7;628_Load Tool Sequence Step 32 Condition Doesn't Reach
+DB100,X269.0;629_UnLoad Tool Sequence Step 1 Condition Doesn't Reach
+DB100,X269.1;630_UnLoad Tool Sequence Step 2 Condition Doesn't Reach
+DB100,X269.2;631_UnLoad Tool Sequence Step 3 Condition Doesn't Reach
+DB100,X269.3;632_UnLoad Tool Sequence Step 4 Condition Doesn't Reach
+DB100,X269.4;633_UnLoad Tool Sequence Step 5 Condition Doesn't Reach
+DB100,X269.5;634_UnLoad Tool Sequence Step 6 Condition Doesn't Reach
+DB100,X269.6;635_UnLoad Tool Sequence Step 7 Condition Doesn't Reach
+DB100,X269.7;636_UnLoad Tool Sequence Step 8 Condition Doesn't Reach
+DB100,X268.0;637_UnLoad Tool  Sequence Step 9 Condition Doesn't Reach
+DB100,X268.1;638_UnLoad Tool Sequence Step 10 Condition Doesn't Reach
+DB100,X268.2;639_UnLoad Tool Sequence Step 11 Condition Doesn't Reach
+DB100,X268.3;640_UnLoad Tool Sequence Step 12 Condition Doesn't Reach
+DB100,X268.4;641_UnLoad Tool Sequence Step 13 Condition Doesn't Reach
+DB100,X268.5;642_UnLoad Tool Sequence Step 14 Condition Doesn't Reach
+DB100,X268.6;643_UnLoad Tool Sequence Step 15 Condition Doesn't Reach
+DB100,X268.7;644_UnLoad Tool Sequence Step 16 Condition Doesn't Reach
+DB100,X267.0;645_UnLoad Tool Sequence Step 17 Condition Doesn't Reach
+DB100,X267.1;646_UnLoad Tool Sequence Step 18 Condition Doesn't Reach
+DB100,X267.2;647_UnLoad Tool Sequence Step 19 Condition Doesn't Reach
+DB100,X267.3;648_UnLoad Tool Sequence Step 20 Condition Doesn't Reach
+DB100,X267.4;649_UnLoad Tool Sequence Step 21 Condition Doesn't Reach
+DB100,X267.5;650_UnLoad Tool Sequence Step 22 Condition Doesn't Reach
+DB100,X267.6;651_UnLoad Tool Sequence Step 23 Condition Doesn't Reach
+DB100,X267.7;652_UnLoad Tool Sequence Step 24 Condition Doesn't Reach
+DB100,X266.0;653_UnLoad Tool Sequence Step 25 Condition Doesn't Reach
+DB100,X266.1;654_UnLoad Tool Sequence Step 26 Condition Doesn't Reach
+DB100,X266.2;655_UnLoad Tool Sequence Step 27 Condition Doesn't Reach
+DB100,X266.3;656_UnLoad Tool Sequence Step 28 Condition Doesn't Reach
+DB100,X266.4;657_UnLoad Tool Sequence Step 29 Condition Doesn't Reach
+DB100,X266.5;658_UnLoad Tool Sequence Step 30 Condition Doesn't Reach
+DB100,X266.6;659_UnLoad Tool Sequence Step 31 Condition Doesn't Reach
+DB100,X266.7;660_UnLoad Tool Sequence Step 32 Condition Doesn't Reach
+DB100,X270.0;661_Device Not Exist IO Slave Station
+DB100,X270.1;662_Glue Machine Communication Interrupted
+DB100,X270.2;663_Heating Module Communication Interrupted
+DB100,X270.3;664_Lift Motor Driver Communication Interrupted
+DB100,X270.4;665_Coveyer Motor Driver Communication Interrupted
+DB100,X270.5;666_Pilz  safety PLC module Communication Interrupted
+DB100,X270.6;667_Staion IO Slave Station Communication Interrupted
+DB100,X270.7;668_EKS Module Communication Interrupted
+DB100,X271.0;669_HMI Communication Interrupted
+DB100,X271.1;670_Robot Communication Interrupted
+DB100,X271.2;671_Reserve
+DB100,X271.3;672_Reserve
+DB100,X271.4;673_Reserve
+DB100,X271.5;674_Reserve
+DB100,X271.6;675_Reserve
+DB100,X271.7;676_Reserve
+DB100,X156.0;800_Laser Routing Part Signal error
+DB100,X156.1;801_Laser Routing Part not in home Position
+DB100,X283.0;677_RedLightHot 2#Alarm
+DB100,X283.1;678_RedLightHot 5#Alarm
+DB100,X283.2;679_RedLightHot 8#Alarm
+DB100,X283.3;680_RedLightHot 11#Alarm
+DB100,X283.4;681_RedLightHot 14#Alarm
+DB100,X283.5;682_RedLightHot 17#Alarm
+DB100,X283.6;683_RedLightHot 20#Alarm
+DB100,X283.7;684_RedLightHot 23#Alarm
+DB100,X282.0;685_RedLightHot 1#Alarm
+DB100,X282.1;686_RedLightHot 4#Alarm
+DB100,X282.2;687_RedLightHot 7#Alarm
+DB100,X282.3;688_RedLightHot 10#Alarm
+DB100,X282.4;689_RedLightHot 13#Alarm
+DB100,X282.5;690_RedLightHot 16#Alarm
+DB100,X282.6;691_RedLightHot 19#Alarm
+DB100,X282.7;692_RedLightHot 22#Alarm
+DB100,X285.0;693_RedLightHot 25#Alarm
+DB100,X285.1;694_RedLightHot 28#Alarm
+DB100,X285.2;695_RedLightHot 31#Alarm
+DB100,X285.3;696_RedLightHot 34#Alarm
+DB100,X285.4;697_RedLightHot 37#Alarm
+DB100,X285.5;698_RedLightHot 40#Alarm
+DB100,X285.6;699_RedLightHot 43#Alarm
+DB100,X285.7;700_RedLightHot 46#Alarm
+DB100,X284.0;701_RedLightHot 3#Alarm
+DB100,X284.1;702_RedLightHot 6#Alarm
+DB100,X284.2;703_RedLightHot 9#Alarm
+DB100,X284.3;704_RedLightHot 12#Alarm
+DB100,X284.4;705_RedLightHot 15#Alarm
+DB100,X284.5;706_RedLightHot 18#Alarm
+DB100,X284.6;707_RedLightHot 21#Alarm
+DB100,X284.7;708_RedLightHot 24#Alarm
+DB100,X287.0;709_RedLightHot 27#Alarm
+DB100,X287.1;710_RedLightHot 30#Alarm
+DB100,X287.2;711_RedLightHot 33#Alarm
+DB100,X287.3;712_RedLightHot 36#Alarm
+DB100,X287.4;713_RedLightHot 39#Alarm
+DB100,X287.5;714_RedLightHot 42#Alarm
+DB100,X287.6;715_RedLightHot 45#Alarm
+DB100,X287.7;716_RedLightHot 48#Alarm
+DB100,X286.0;717_RedLightHot 26#Alarm
+DB100,X286.1;718_RedLightHot 29#Alarm
+DB100,X286.2;719_RedLightHot 32#Alarm
+DB100,X286.3;720_RedLightHot 35#Alarm
+DB100,X286.4;721_RedLightHot 38#Alarm
+DB100,X286.5;722_RedLightHot 41#Alarm
+DB100,X286.6;723_RedLightHot 44#Alarm
+DB100,X286.7;724_RedLightHot 47#Alarm

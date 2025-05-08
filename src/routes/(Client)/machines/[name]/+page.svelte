@@ -1,18 +1,9 @@
 <script lang="ts">
 	import Header from '$lib/components/Header.svelte';
 	import { checkExpiredMessages } from '$lib/utils/frontend';
-	import {
-		ArrowDownCircle,
-		ArrowUpCircle,
-		InfoIcon,
-		LoaderCircle,
-		MinusCircle,
-		PlusCircle
-	} from '@lucide/svelte';
+	import { ArrowDownCircle, ArrowUpCircle, InfoIcon, LoaderCircle } from '@lucide/svelte';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
-	import Label from '$lib/components/ui/label/label.svelte';
-	import Input from '$lib/components/ui/input/input.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import type { messageAlertType, statusType } from '$lib/utils/types/serverTypes.js';
 	import Separator from '$lib/components/ui/separator/separator.svelte';
@@ -21,13 +12,12 @@
 		type MachineDbType,
 		type SuccessResponse
 	} from '$lib/utils/types/machineTypes.js';
-	import Textarea from '$lib/components/ui/textarea/textarea.svelte';
-	import { enhance } from '$app/forms';
 	import type { PageProps } from './$types.js';
 	import { HoverCard, HoverCardTrigger } from '$lib/components/ui/hover-card/index.js';
 	import HoverCardContent from '$lib/components/ui/hover-card/hover-card-content.svelte';
 	import { authClient } from '$lib/auth/auth-client.js';
-	import { page } from '$app/state';
+	import HmiNote from '$lib/components/coreComponents/HmiNote.svelte';
+	import { hmiNoteFilters } from '$lib/stores/filter.js';
 
 	let { data, form }: PageProps = $props();
 
@@ -42,10 +32,8 @@
 
 	//FEATURES
 	let expandToggleHmi = $state(false);
-	let expandToggleNoteHmi = $state(false);
-	let isAddNoteOpen = $state(false);
 
-	const id = setInterval(() => {
+	setInterval(() => {
 		// DELETE OLD MESSAGES [check every 5 sec.]
 		checkExpiredMessages({ messages });
 	}, 3000);
@@ -95,7 +83,7 @@
 		};
 	});
 
-	$inspect(form);
+	$inspect('');
 </script>
 
 <main class="mt-6 flex max-w-7xl flex-wrap justify-center gap-6 md:mt-12 lg:justify-between">
@@ -185,70 +173,13 @@
 	</article>
 
 	<!-- NOTE ZONE -->
-	<article
-		class="flex w-full flex-col rounded-2xl border p-3 shadow-2xl lg:w-2xl {!DB_dataStatus.success &&
-			'hidden'}"
-	>
-		<Header text="Hmi alert note" classNameh1="" />
-		<div class="flex flex-col gap-5">
-			<section class="relative">
-				<h4 class="text-muted-foreground mb-2 text-center text-xs">
-					Last added notes to alert <br />(Total:
-					<span class="text-secondary-foreground"
-						>{DB_dataStatus?.success && DB_dataStatus.data.notes.length}</span
-					>)
-				</h4>
-				<div
-					class="max-h-[200px] overflow-auto {!expandToggleNoteHmi
-						? 'max-h-auto'
-						: 'max-h-[500px] md:max-h-[800px]'}"
-				>
-					{#if DB_dataStatus.success}
-						<div class="mx-2 flex flex-col gap-y-2">
-							{#each DB_dataStatus.data.notes as note}
-								<div class="w-full rounded-xl border p-2">
-									<div class="mb-2 flex gap-x-2">
-										<p class="text-xs">
-											Alert Id: <span class="text-destructive font-bold">{note.alertId}</span>
-										</p>
-										<p class="text-xs">
-											Created At: <span class="text-destructive font-bold"
-												>{note.createdAt.toLocaleString()}</span
-											>
-										</p>
-									</div>
-									<Separator />
-									<p class="mt-2 w-xl text-sm tracking-tight break-words">
-										{note.alertDescription}
-									</p>
-								</div>
-							{/each}
-						</div>
-						<Button
-							variant="ghost"
-							size="icon"
-							class="absolute bottom-0 left-[47%] z-20 -mb-9 {DB_dataStatus.data.notes.length > 5
-								? 'flex'
-								: 'hidden'}"
-							onclick={() => {
-								expandToggleNoteHmi = !expandToggleNoteHmi;
-							}}
-						>
-							{#if expandToggleNoteHmi}
-								<ArrowUpCircle class=" text-muted-foreground !size-6" />
-							{:else}
-								<ArrowDownCircle class="text-muted-foreground !size-6" />
-							{/if}
-						</Button>
-					{/if}
-				</div>
-			</section>
-			{#if $session?.data?.user.email && DB_dataStatus.success && DB_dataStatus.data.name}
-				<section>
-					{@render addNote()}
-				</section>
-			{/if}
+	<article class="flex w-full flex-col rounded-2xl border p-3 shadow-2xl lg:w-2xl">
+		<div class="flex items-center justify-between">
+			<Header text="Hmi alert note" />
 		</div>
+		{#if DB_dataStatus.success}
+			<HmiNote {DB_dataStatus} {form} />
+		{/if}
 	</article>
 </main>
 
@@ -298,55 +229,4 @@
 			{/if}
 		</div>
 	{/each}
-{/snippet}
-
-{#snippet addNote()}
-	<div>
-		<Separator />
-		<Button
-			class="my-4 w-full"
-			onclick={() => (isAddNoteOpen = !isAddNoteOpen)}
-			variant={isAddNoteOpen ? 'destructive' : 'default'}
-		>
-			{#if isAddNoteOpen}
-				<MinusCircle /> <span>Close note form </span>
-			{:else}
-				<PlusCircle /><span>Add note to alert</span>
-			{/if}
-		</Button>
-
-		{#if $session?.data?.user.email}
-			<form
-				method="POST"
-				action={'?/addnote'}
-				class="w-full {isAddNoteOpen ? 'block' : 'hidden'}"
-				use:enhance
-			>
-				<input
-					id="machineName"
-					name="machineName"
-					type="text"
-					hidden
-					required
-					value={DB_dataStatus.success && DB_dataStatus.data.name}
-				/>
-
-				<input
-					type="text"
-					id="user-id"
-					name="userId"
-					value={$session?.data?.user.id}
-					hidden
-					required
-				/>
-				<Label for="alert-id">Id alert</Label>
-				<Input id="alert-id" name="alertId" type="text" placeholder="Insert alert id" />
-
-				<Label for="note-text">Description</Label>
-				<Textarea id="note-text" name="text" placeholder="Insert destription" required />
-
-				<Button type="submit" class="mt-2 w-full">Submit</Button>
-			</form>
-		{/if}
-	</div>
 {/snippet}

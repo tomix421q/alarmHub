@@ -1,6 +1,10 @@
 export type SuccessResponse<T = void> = {
 	success: true;
 	message: string;
+	page?: number;
+	limit?: number;
+	totalPages?: number;
+	totalItems?: number;
 } & (T extends void ? {} : { data: T });
 
 export type ErrorResponse = {
@@ -19,7 +23,7 @@ export type Note = {
 	machineId: string;
 	updateAt: Date;
 	userId: string;
-	user: User
+	user: User;
 };
 
 export type MachineDbType = {
@@ -30,9 +34,9 @@ export type MachineDbType = {
 };
 
 export type User = {
-	id: string,
-	name: string,
-	email: string,
-	emailVerified: boolean,
-	createdAt: Date,
-}
+	id: string;
+	name: string;
+	email: string;
+	emailVerified: boolean;
+	createdAt: Date;
+};
