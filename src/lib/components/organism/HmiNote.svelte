@@ -14,22 +14,32 @@
 	import Textarea from '../ui/textarea/textarea.svelte';
 	import { slide } from 'svelte/transition';
 	import type { ActionData } from '../../../routes/(Client)/machines/[name]/$types';
-	import { goto } from '$app/navigation';
+	import { afterNavigate, goto } from '$app/navigation';
 	import { page } from '$app/state';
 	import { hmiNoteFilters } from '$lib/stores/filter';
-
+	import { renderMarkdoc } from '$lib/utils/frontend';
+	import { onMount, tick } from 'svelte';
+	import AlertListFromHmi from '../molecules/AlertListFromHmi.svelte';
+	import Checkbox from '../ui/checkbox/checkbox.svelte';
 
 	let {
 		DB_dataStatus,
+		alertList,
 		form
 	}: {
 		DB_dataStatus: SuccessResponse<MachineDbType> | ErrorResponse;
+		alertList: Map<number, string>;
 		form: ActionData;
 	} = $props();
 
 	const session = authClient.useSession();
 	let isAddNoteOpen = $state(false);
 	let isOpenFilter = $state(false);
+	let noteTextInput = $state('');
+	let generatedHtmlFromMd = $state();
+	let renderedNotes = $state<any>([]);
+	let notHmiNote = $state(false);
+	let alertId = $state<number>();
 
 	function goToPage(p: number) {
 		const url = new URL(window.location.href);
@@ -60,6 +70,17 @@
 		goto(page.url.pathname, { keepFocus: true, noScroll: true, replaceState: true });
 	}
 
+	async function toggleAddNote() {
+		isAddNoteOpen = !isAddNoteOpen;
+		if (isAddNoteOpen) {
+			await tick();
+			const el = document.getElementById('note-form');
+			if (el) {
+				el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+			}
+		}
+	}
+
 	$effect(() => {
 		hmiNoteFilters.set({
 			alertId: page.url.searchParams.get('alertId') ?? '',
@@ -68,27 +89,56 @@
 			from: page.url.searchParams.get('from') ?? '',
 			to: page.url.searchParams.get('to') ?? ''
 		});
+		onMount(() => {
+			if ($filters.alertId || $filters.user || $filters.desc || $filters.from || $filters.to) {
+				isOpenFilter = true;
+			}
+		});
+
+		if (form?.success) {
+			noteTextInput = '';
+			clearFilter();
+			setTimeout(() => {
+				isAddNoteOpen = false;
+				form = null;
+				goToPage(1);
+			}, 7000);
+		}
+		renderedNotes = DB_dataStatus.success
+			? DB_dataStatus.data.notes.map((note) => ({
+					...note,
+					renderedHtml: renderMarkdoc(note.alertDescription)
+				}))
+			: [];
+
+		if (notHmiNote) {
+			alertId = 0;
+		}
 	});
 
-	$inspect(DB_dataStatus);
+	// $inspect(DB_dataStatus.success && DB_dataStatus);
 </script>
 
 <main class="flex flex-col gap-5">
 	<div class="relative">
 		<section class="mb-4 flex flex-col">
-			<div class="flex w-full justify-between">
-				<Button
-					variant={isOpenFilter ? 'destructive' : 'outline'}
-					onclick={() => {
-						isOpenFilter = !isOpenFilter;
-					}}
-				>
-					{#if isOpenFilter}
-						<X />Close Filter
-					{:else}
-						<FunnelPlus />Filter
-					{/if}
-				</Button>
+			<div class="flex w-full items-center justify-between">
+				<div class="flex flex-col gap-3 md:flex-row md:items-center">
+					<AlertListFromHmi {alertList} {DB_dataStatus} />
+					<Button
+						variant={isOpenFilter ? 'destructive' : 'outline'}
+						onclick={() => {
+							isOpenFilter = !isOpenFilter;
+						}}
+					>
+						{#if isOpenFilter}
+							<X />Close Filter
+						{:else}
+							<FunnelPlus />Filter
+						{/if}
+					</Button>
+				</div>
+
 				<p class="text-muted-foreground text-center text-xs">
 					Last added notes <br />(Total:
 					<span class="text-secondary-foreground"
@@ -99,41 +149,43 @@
 			<div class="mt-2">
 				{@render filter()}
 			</div>
+			{#if $session?.data?.user.email && DB_dataStatus.success && DB_dataStatus.data.name}
+				<section>
+					{@render addNote()}
+				</section>
+			{/if}
 		</section>
 
-		<section class="h-auto overflow-auto">
-			<div class="flex flex-col gap-y-2">
+		<section class="h-auto max-h-[1000px] overflow-y-scroll pr-2">
+			<div class="flex flex-col gap-y-3">
 				{@render hmiNotesList()}
 				{@render pagination()}
 			</div>
 		</section>
 	</div>
-	{#if $session?.data?.user.email && DB_dataStatus.success && DB_dataStatus.data.name}
-		<section>
-			{@render addNote()}
-		</section>
-	{/if}
 </main>
 
 {#snippet hmiNotesList()}
 	{#if DB_dataStatus.success}
-		{#each DB_dataStatus.data.notes as note}
-			<div class="w-full rounded-xl border p-2">
+		{#each renderedNotes as note}
+			<article class="bg-secondary w-full rounded-lg p-2">
 				<div class="text-muted-foreground mb-2 flex justify-between text-xs">
-					<p class="">
+					<span>
 						Alert Id: <span class="text-destructive font-bold">{note.alertId}</span>
-					</p>
-					<p class="tracking-tight">
-						<span>{note.createdAt.toLocaleString()}</span>
-					</p>
-					<span>{note.user.name || note.user.email}</span>
+					</span>
+					<div>
+						<span class="tracking-tight">
+							<span>{note.createdAt.toLocaleString()} · </span>
+						</span>
+						<span>{note.user.name || note.user.email}</span>
+					</div>
 				</div>
-				<Separator />
+				<Separator class="bg-black/50" />
 
-				<p class="mt-2 w-xs text-sm tracking-tight break-words md:w-xl">
-					{note.alertDescription}
-				</p>
-			</div>{/each}
+				<div class="mt-2 w-xs text-sm tracking-tight break-words md:w-xl">
+					<p class="markdoc-content">{@html note.renderedHtml}</p>
+				</div>
+			</article>{/each}
 	{/if}
 {/snippet}
 
@@ -141,7 +193,7 @@
 	<div>
 		<Button
 			class="my-4 w-full"
-			onclick={() => (isAddNoteOpen = !isAddNoteOpen)}
+			onclick={toggleAddNote}
 			variant={isAddNoteOpen ? 'destructive' : 'default'}
 		>
 			{#if isAddNoteOpen}
@@ -151,13 +203,15 @@
 			{/if}
 		</Button>
 
-		{#if $session?.data?.user.email && DB_dataStatus.success && DB_dataStatus.data.name}
+		{#if $session?.data?.user.email && DB_dataStatus.success && DB_dataStatus.data.id}
 			<form
 				method="POST"
 				action={'?/addnote'}
 				class="w-full {isAddNoteOpen ? 'block' : 'hidden'}"
 				use:enhance
+				id="note-form"
 			>
+				<!-- VALIDATE INFO -->
 				<div class="my-4 text-xs">
 					{#if !form?.success}
 						{#if form?.fieldErrors}
@@ -180,19 +234,42 @@
 				</div>
 
 				<input
-					id="machineName"
-					name="machineName"
-					type="text"
+					id="machineId"
+					name="machineId"
+					type="hidden"
 					hidden
-					value={DB_dataStatus.success && DB_dataStatus.data.name}
+					value={DB_dataStatus.success && DB_dataStatus.data.id}
 				/>
+				<input type="hidden" id="user-id" name="userId" value={$session?.data?.user.id} hidden />
 
-				<input type="text" id="user-id" name="userId" value={$session?.data?.user.id} hidden />
-				<Label for="alert-id">Id alert</Label>
-				<Input id="alert-id" name="alertId" type="text" placeholder="Insert alert id" />
+				<div class="my-4 flex items-center gap-x-2">
+					<Label for="notHmiNote">Not hmi alert</Label>
+					<Checkbox id="notHmiNote" name="notHmiNote" bind:checked={notHmiNote} />
+				</div>
 
-				<Label for="note-text">Description</Label>
-				<Textarea id="note-text" name="text" placeholder="Insert destription" required />
+				<div>
+					<Label for="alert-id">Hmi ID alert</Label>
+					<Input
+						id="alert-id"
+						disabled={notHmiNote}
+						name="alertId"
+						type="text"
+						bind:value={alertId}
+						placeholder="Insert alert id"
+					/>
+				</div>
+
+				<div>
+					<Label for="note-text">Description</Label>
+					<Textarea
+						id="note-text"
+						name="text"
+						bind:value={noteTextInput}
+						placeholder="Insert destription"
+						required
+						class="lg:min-h-[200px]"
+					/>
+				</div>
 
 				<Button type="submit" class="mt-2 w-full">Submit</Button>
 			</form>
@@ -202,13 +279,10 @@
 
 {#snippet filter()}
 	{#if isOpenFilter}
-		<section
-			transition:slide
-			class="bg-my-indigo text-secondary flex flex-wrap gap-3 rounded-sm p-2 text-center"
-		>
+		<form class="bg-my-indigo text-secondary flex flex-wrap gap-3 rounded-sm p-2 text-center">
 			<div class="w-[140px]">
 				<Label class="text-xs font-bold">Filter by alert Id</Label>
-				<Input type="number" bind:value={$filters.alertId} placeholder="ID" />
+				<Input type="text" bind:value={$filters.alertId} placeholder="ID" />
 			</div>
 			<div class="w-[140px]">
 				<Label class="text-xs font-bold">Filter by user</Label>
@@ -230,11 +304,11 @@
 			</div>
 			<div class="flex items-end gap-x-2">
 				<Button variant="destructive" size="sm" onclick={clearFilter}><X />Clear</Button>
-				<Button onclick={applyFilter} class="w-full" variant="default" size="sm"
+				<Button onclick={applyFilter} type="submit" class="w-full" variant="default" size="sm"
 					><Scan />Apply</Button
 				>
 			</div>
-		</section>
+		</form>
 	{/if}
 {/snippet}
 

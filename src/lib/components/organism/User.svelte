@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { authClient } from '$lib/auth/auth-client';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
-	import Button, { buttonVariants } from './ui/button/button.svelte';
+	import Button, { buttonVariants } from '../ui/button/button.svelte';
 	import { afterNavigate } from '$app/navigation';
 	import { User, UserCheck, UserCheck2, UserCircle } from '@lucide/svelte';
 

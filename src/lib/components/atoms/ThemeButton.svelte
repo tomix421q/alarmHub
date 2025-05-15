@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { slide } from 'svelte/transition';
-	import Button from './ui/button/button.svelte';
+	import Button from '../ui/button/button.svelte';
 	import { Moon, Sun } from '@lucide/svelte';
 	import { theme } from '$lib/stores/theme';
 </script>

@@ -2,6 +2,10 @@ import { readFileSync } from 'fs';
 import path from 'path';
 import prisma from '$lib/server/prisma';
 import type { ErrorResponse, MachineDbType, SuccessResponse } from './types/machineTypes';
+import { addNoteSchema } from './zod/zodclient';
+import { fail } from '@sveltejs/kit';
+import prismaClient from '$lib/server/prisma';
+import type { Note, Prisma } from '@prisma/client';
 
 export function loadAlertsCsvByName(machineName: string): Map<number, string> {
 	let csvText: string;
@@ -11,7 +15,9 @@ export function loadAlertsCsvByName(machineName: string): Map<number, string> {
 		csvText = readFileSync(csvFilePath, 'utf-8');
 	} catch (error) {
 		if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
-			throw new Error(`CSV súbor pre stroj "${machineName}" nebol nájdený.`);
+			// throw new Error(`CSV súbor pre stroj "${machineName}" nebol nájdený.`);
+			console.log(`CSV súbor pre stroj "${machineName}" nebol nájdený.`);
+			return map;
 		} else {
 			throw error;
 		}
@@ -24,10 +30,10 @@ export function loadAlertsCsvByName(machineName: string): Map<number, string> {
 		const semicolonIndex = trimmed.indexOf(';');
 		if (semicolonIndex === -1) continue;
 
-		const key = trimmed.slice(0, semicolonIndex).trim();
+		// const key = trimmed.slice(0, semicolonIndex).trim();
 		const desc = trimmed.slice(semicolonIndex + 1).trim();
 
-		if (!key || !desc) continue;
+		if (!desc) continue;
 
 		const idStr = desc.split('_')[0].trim();
 		const idNum = parseInt(idStr, 10);
@@ -59,18 +65,21 @@ export async function getMachineNotesResponse({
 	page?: number;
 	limit?: number;
 }): Promise<ErrorResponse | SuccessResponse<MachineDbType>> {
-	const machine = await prisma.machines.findUnique({
+	const machine = await prismaClient.machines.findUnique({
 		where: { name: machineName }
 	});
 	if (!machine) {
-		return {
+		const errorResponse: ErrorResponse = {
 			success: false,
-			error: 'Machine in db not found...'
+			error: `Machine in db not found,name : ${machineName}`
 		};
+		return errorResponse;
 	}
 
-	const where: any = { machineId: machine.id, };
-	if (filters.alertId) where.alertId = filters.alertId;
+	const where: Prisma.NoteWhereInput = { machineId: machine.id };
+	if (typeof filters.alertId === 'number') {
+		where.alertId = filters.alertId;
+	}
 	if (filters.user) where.user = { name: { contains: filters.user } };
 	if (filters.desc) where.alertDescription = { contains: filters.desc };
 	if (filters.from || filters.to) {
@@ -99,5 +108,61 @@ export async function getMachineNotesResponse({
 		limit,
 		totalPages,
 		totalItems: count
+	};
+}
+
+export async function createNote(
+	formDataRaw: Record<string, any>,
+	machineAlertListMap: Map<number, string>
+): Promise<SuccessResponse<Note> | ReturnType<typeof fail>> {
+	const formData = {
+		...formDataRaw,
+		alertId: formDataRaw.alertId ? Number(formDataRaw.alertId) : 0
+	};
+	const parseZod = addNoteSchema.safeParse(formData);
+
+	if (parseZod.data?.alertId !== undefined && !machineAlertListMap.has(parseZod.data.alertId)) {
+		return fail(400, {
+			success: false,
+
+			error: `Alert ID ${formData.alertId} not found in alert list.`,
+			isFormError: true,
+			fieldErrors: {
+				alertId: 'Invalid alert ID.'
+			},
+			values: formData
+		} as ErrorResponse);
+	}
+	if (!parseZod.success) {
+		const fieldErrors = parseZod.error.errors.reduce(
+			(acc, e) => {
+				acc[e.path[0]] = e.message;
+				return acc;
+			},
+			{} as Record<string | number, string>
+		);
+
+		return fail(400, {
+			success: false,
+			error: 'Validation failed',
+			isFormError: true,
+			fieldErrors,
+			values: formData
+		} as ErrorResponse);
+	}
+
+	const newNote: Note = await prismaClient.note.create({
+		data: {
+			machineId: parseZod.data.machineId,
+			alertId: parseZod.data.alertId as number,
+			alertDescription: parseZod.data.text,
+			userId: parseZod.data.userId
+		}
+	});
+
+	return {
+		success: true,
+		message: 'Note added successfully.',
+		data: newNote
 	};
 }

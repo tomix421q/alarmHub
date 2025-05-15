@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Header from '$lib/components/Header.svelte';
-	import { checkExpiredMessages } from '$lib/utils/frontend';
+	import Header from '$lib/components/molecules/HeaderText.svelte';
+	import { checkExpiredMessages, renderMarkdoc } from '$lib/utils/frontend';
 	import { ArrowDownCircle, ArrowUpCircle, InfoIcon, LoaderCircle } from '@lucide/svelte';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
@@ -16,8 +16,7 @@
 	import { HoverCard, HoverCardTrigger } from '$lib/components/ui/hover-card/index.js';
 	import HoverCardContent from '$lib/components/ui/hover-card/hover-card-content.svelte';
 	import { authClient } from '$lib/auth/auth-client.js';
-	import HmiNote from '$lib/components/coreComponents/HmiNote.svelte';
-	import { hmiNoteFilters } from '$lib/stores/filter.js';
+	import HmiNote from '$lib/components/organism/HmiNote.svelte';
 
 	let { data, form }: PageProps = $props();
 
@@ -29,6 +28,7 @@
 	let messages = $state<messageAlertType[]>([]);
 	let WSserverClientStatus = $state<statusType>();
 	let DB_dataStatus = $derived<ErrorResponse | SuccessResponse<MachineDbType>>(data.dbdata);
+	let alertList = $derived(data.machineAlertsListMap);
 
 	//FEATURES
 	let expandToggleHmi = $state(false);
@@ -36,7 +36,7 @@
 	setInterval(() => {
 		// DELETE OLD MESSAGES [check every 5 sec.]
 		checkExpiredMessages({ messages });
-	}, 3000);
+	}, 4000);
 
 	// CONNECT TO SERVER SOCKET
 	function connect() {
@@ -75,7 +75,6 @@
 			setTimeout(connect, 3000);
 		};
 	}
-
 	onMount(() => {
 		connect();
 		return () => {
@@ -83,13 +82,13 @@
 		};
 	});
 
-	$inspect('');
+	$inspect(form);
 </script>
 
 <main class="mt-6 flex max-w-7xl flex-wrap justify-center gap-6 md:mt-12 lg:justify-between">
 	<!-- HMI -->
 	<article
-		class=" relative flex min-h-[300px] w-full flex-col rounded-2xl border p-3 shadow-2xl lg:w-[920px]"
+		class=" relative flex min-h-[300px] w-full flex-col rounded-lg border p-3 shadow-2xl lg:w-[920px]"
 	>
 		<Header text="Hmi Live Alerts" classNameh1="!w-fit" />
 		{#if loading}
@@ -125,7 +124,7 @@
 	</article>
 
 	<!-- STATE ZONE -->
-	<article class="flex max-h-[600px] w-full flex-col rounded-2xl border p-3 shadow-2xl md:w-xs">
+	<article class="flex max-h-[600px] w-full flex-col rounded-lg border p-3 shadow-2xl md:w-xs">
 		<Header text="State {WSserverClientStatus?.name}" classNameh1="!text-2xl" />
 		<div class="text-sm">
 			<!-- WS SERVER STATUS -->
@@ -160,7 +159,7 @@
 					</h4>
 					<h4 class="text-warning">
 						<span class="text-muted-foreground">Number of notes:</span>
-						{DB_dataStatus.data.notes.length}
+						{(DB_dataStatus?.success && DB_dataStatus.totalItems) || 'X'}
 					</h4>
 				{:else}
 					<h4 class="font-bold text-red-500">Disconnect</h4>
@@ -173,12 +172,12 @@
 	</article>
 
 	<!-- NOTE ZONE -->
-	<article class="flex w-full flex-col rounded-2xl border p-3 shadow-2xl lg:w-2xl">
+	<article class="flex w-full flex-col rounded-lg border p-3 shadow-2xl lg:w-3xl">
 		<div class="flex items-center justify-between">
-			<Header text="Hmi alert note" />
+			<Header text="Fault note" />
 		</div>
 		{#if DB_dataStatus.success}
-			<HmiNote {DB_dataStatus} {form} />
+			<HmiNote {DB_dataStatus} {form} {alertList} />
 		{/if}
 	</article>
 </main>

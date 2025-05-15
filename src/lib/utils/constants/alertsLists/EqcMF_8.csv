@@ -1,3 +1,4 @@
+;0_No specify fault
 DB100,X0.0;1_Emergency Stop Fault
 DB100,X0.1;2_Air Pressure Low
 DB100,X0.2;3_Bottom Tool Locker signal is missing when not in ToolChange Mode
@@ -86,6 +87,66 @@ DB100,X10.4;85_Down Mould Already have a Product
 DB100,X10.5;86_Robot Put Product at TransBelt Failure
 DB100,X10.6;87_LowerTool Cliper do not Closed
 DB100,X10.7;88_LowerTool do not ready for start
+DB100,X11.0;89_Main Cycle Sequence is paused
+DB100,X11.1;90_Main Cycle Sequence is Stoped
+DB100,X11.2;91_Main Cycle Sequence is In StepMode
+DB100,X11.3;92_Machine is In Auto Heating Test Mode
+DB100,X11.4;93_Machine is In  Sim AutoMode
+DB100,X11.5;94_Machine is in PressMachine Mode
+DB100,X11.6;95_Oil Pump1 Feedback Nok
+DB100,X11.7;96_Oil Pump2 Feedback Nok
+DB100,X12.0;97_Oil Pump3 Feedback Nok
+DB100,X12.1;98_Oil Pump4 Feedback Nok
+DB100,X12.2;99_Robot Gripper Product Sensor Status Error
+DB100,X12.3;100_PlugConnectionCylinder1 Feedback Fault
+DB100,X12.4;101_PlugConnectionCylinder1 No Feedback
+DB100,X12.5;102_PlugConnectionCylinder1 Forward Overtime
+DB100,X12.6;103_PlugConnectionCylinder1 Backward Overtime
+DB100,X12.7;104_ConveyerLocker Feedback Fault
+DB100,X13.0;105_ConveyerLocker No Feedback
+DB100,X13.1;106_ConveyerLocker Forward Overtime
+DB100,X13.2;107_ConveyerLocker Backward Overtime
+DB100,X13.3;108_Glue is Empty Please Change a New GlueBag
+DB100,X13.4;109_Positioning tooling no homeposition
+DB100,X13.5;110_Alignment Tool not at homepostion
+DB100,X13.6;111_The top vacuum is released that failed
+DB100,X13.7;112_Top Vacuum is failed
+DB100,X14.0;113_ChangeTool_CheckPostion is Failed
+DB100,X14.1;114_Step 1 Timeout, please check the step sequence conditions
+DB100,X14.2;115_Step 2 Timeout, please check the step sequence conditions
+DB100,X14.3;116_Step 3 Timeout, please check the step sequence conditions
+DB100,X14.4;117_Step 4 Timeout, please check the step sequence conditions
+DB100,X14.5;118_Step 5 Timeout, please check the step sequence conditions
+DB100,X14.6;119_Step 6 Timeout, please check the step sequence conditions
+DB100,X14.7;120_Step 7 Timeout, please check the step sequence conditions
+DB100,X15.0;121_Step 8 Timeout, please check the step sequence conditions
+DB100,X15.1;122_Step 9 Timeout, please check the step sequence conditions
+DB100,X15.2;123_Step 10 Timeout, please check the step sequence conditions
+DB100,X15.3;124_Step 11 Timeout, please check the step sequence conditions
+DB100,X15.4;125_Step 12 Timeout, please check the step sequence conditions
+DB100,X15.5;126_Step 13 Timeout, please check the step sequence conditions
+DB100,X15.6;127_Step 14 Timeout, please check the step sequence conditions
+DB100,X15.7;128_Step 15 Timeout, please check the step sequence conditions
+DB100,X16.0;129_Step 16 Timeout, please check the step sequence conditions
+DB100,X16.1;130_Shifttable Cylinder Feedback Fault
+DB100,X16.2;131_Shifttable  Cylinder No Feedback
+DB100,X16.3;132_Shifttable Forward Overtime
+DB100,X16.4;133_Shifttable  Backward Overtime
+DB100,X16.5;134_Shifttable Cylinder Lock1 Feedback Fault
+DB100,X16.6;135_Shifttable  Cylinder Lock1 No Feedback
+DB100,X16.7;136_Shifttable Forward Lock1 Overtime
+DB100,X17.0;137_Shifttable  Backward Lock1 Overtime
+DB100,X17.1;138_Shifttable Cylinder Lock2 Feedback Fault
+DB100,X17.2;139_Shifttable  Cylinder Lock2 No Feedback
+DB100,X17.3;140_Shifttable Forward Lock2 Overtime
+DB100,X17.4;141_Shifttable  Backward Lock2 Overtime
+DB100,X17.5;142_Cooler Machine is not OFF
+DB100,X17.6;143_Spreading time is too long
+DB100,X17.7;144_The temperature probe needs to be cleaned
+DB100,X18.0;145_Reserve
+DB100,X18.1;146_Reserve
+DB100,X18.2;147_Reserve
+DB100,X18.3;148_Reserve
 DB100,X28.0;149_Reserve
 DB100,X28.1;150_Reserve
 DB100,X28.2;151_Reserve
@@ -470,66 +531,6 @@ DB100,X203.4;529_No.88 Mold cylinders All Sensors Lighted (Check related cylinde
 DB100,X203.5;530_No.88 Mold cylinders All Sensors Not Lighted (Check related cylinders and related sensors)
 DB100,X203.6;531_No.88 Mold cylinders Extend Overtime (Check related cylinders and related sensors)
 DB100,X203.7;532_No.88 Mold cylinders Retreat Overtime (Check related cylinders and related sensors)
-DB100,X11.0;89_Main Cycle Sequence is paused
-DB100,X11.1;90_Main Cycle Sequence is Stoped
-DB100,X11.2;91_Main Cycle Sequence is In StepMode
-DB100,X11.3;92_Machine is In Auto Heating Test Mode
-DB100,X11.4;93_Machine is In  Sim AutoMode
-DB100,X11.5;94_Machine is in PressMachine Mode
-DB100,X11.6;95_Oil Pump1 Feedback Nok
-DB100,X11.7;96_Oil Pump2 Feedback Nok
-DB100,X12.0;97_Oil Pump3 Feedback Nok
-DB100,X12.1;98_Oil Pump4 Feedback Nok
-DB100,X12.2;99_Robot Gripper Product Sensor Status Error
-DB100,X12.3;100_PlugConnectionCylinder1 Feedback Fault
-DB100,X12.4;101_PlugConnectionCylinder1 No Feedback
-DB100,X12.5;102_PlugConnectionCylinder1 Forward Overtime
-DB100,X12.6;103_PlugConnectionCylinder1 Backward Overtime
-DB100,X12.7;104_ConveyerLocker Feedback Fault
-DB100,X13.0;105_ConveyerLocker No Feedback
-DB100,X13.1;106_ConveyerLocker Forward Overtime
-DB100,X13.2;107_ConveyerLocker Backward Overtime
-DB100,X13.3;108_Glue is Empty Please Change a New GlueBag
-DB100,X13.4;109_Positioning tooling no homeposition
-DB100,X13.5;110_Alignment Tool not at homepostion
-DB100,X13.6;111_The top vacuum is released that failed
-DB100,X13.7;112_Top Vacuum is failed
-DB100,X14.0;113_ChangeTool_CheckPostion is Failed
-DB100,X14.1;114_Step 1 Timeout, please check the step sequence conditions
-DB100,X14.2;115_Step 2 Timeout, please check the step sequence conditions
-DB100,X14.3;116_Step 3 Timeout, please check the step sequence conditions
-DB100,X14.4;117_Step 4 Timeout, please check the step sequence conditions
-DB100,X14.5;118_Step 5 Timeout, please check the step sequence conditions
-DB100,X14.6;119_Step 6 Timeout, please check the step sequence conditions
-DB100,X14.7;120_Step 7 Timeout, please check the step sequence conditions
-DB100,X15.0;121_Step 8 Timeout, please check the step sequence conditions
-DB100,X15.1;122_Step 9 Timeout, please check the step sequence conditions
-DB100,X15.2;123_Step 10 Timeout, please check the step sequence conditions
-DB100,X15.3;124_Step 11 Timeout, please check the step sequence conditions
-DB100,X15.4;125_Step 12 Timeout, please check the step sequence conditions
-DB100,X15.5;126_Step 13 Timeout, please check the step sequence conditions
-DB100,X15.6;127_Step 14 Timeout, please check the step sequence conditions
-DB100,X15.7;128_Step 15 Timeout, please check the step sequence conditions
-DB100,X16.0;129_Step 16 Timeout, please check the step sequence conditions
-DB100,X16.1;130_Shifttable Cylinder Feedback Fault
-DB100,X16.2;131_Shifttable  Cylinder No Feedback
-DB100,X16.3;132_Shifttable Forward Overtime
-DB100,X16.4;133_Shifttable  Backward Overtime
-DB100,X16.5;134_Shifttable Cylinder Lock1 Feedback Fault
-DB100,X16.6;135_Shifttable  Cylinder Lock1 No Feedback
-DB100,X16.7;136_Shifttable Forward Lock1 Overtime
-DB100,X17.0;137_Shifttable  Backward Lock1 Overtime
-DB100,X17.1;138_Shifttable Cylinder Lock2 Feedback Fault
-DB100,X17.2;139_Shifttable  Cylinder Lock2 No Feedback
-DB100,X17.3;140_Shifttable Forward Lock2 Overtime
-DB100,X17.4;141_Shifttable  Backward Lock2 Overtime
-DB100,X17.5;142_Cooler Machine is not OFF
-DB100,X17.6;143_Spreading time is too long
-DB100,X17.7;144_The temperature probe needs to be cleaned
-DB100,X18.0;145_Reserve
-DB100,X18.1;146_Reserve
-DB100,X18.2;147_Reserve
-DB100,X18.3;148_Reserve
 DB100,X248.0;533_Temperature 1 High High Alarm
 DB100,X248.1;534_Temperature 1 High Alarm
 DB100,X248.2;535_Temperature 1 Low Alarm

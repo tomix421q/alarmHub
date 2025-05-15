@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { afterNavigate, beforeNavigate } from '$app/navigation';
 	import { BellRingIcon, Loader2Icon } from '@lucide/svelte';
-	import User from '$lib/components/User.svelte';
+	import User from '$lib/components/organism/User.svelte';
 	import Separator from '$lib/components/ui/separator/separator.svelte';
-	import MenuMobile from '$lib/components/MenuMobile.svelte';
-	import ThemeButton from '$lib/components/ThemeButton.svelte';
-	import Sidebar from '$lib/components/Sidebar.svelte';
+	import MenuMobile from '$lib/components/organism/MenuMobile.svelte';
+	import ThemeButton from '$lib/components/atoms/ThemeButton.svelte';
+	import Sidebar from '$lib/components/organism/Sidebar.svelte';
 
 	let { children } = $props();
 

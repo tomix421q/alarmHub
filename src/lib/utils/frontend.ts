@@ -1,3 +1,4 @@
+import Markdoc from '@markdoc/markdoc';
 import type { messageAlertType } from './types/serverTypes';
 
 // WHEN OLD MESSAGE DELELETE?
@@ -15,4 +16,12 @@ export function checkExpiredMessages({ messages }: { messages: messageAlertType[
 	if (freshMessages.length !== messages.length) {
 		messages = freshMessages;
 	}
+}
+
+// MARKDOC
+export function renderMarkdoc(content: string) {
+	const ast = Markdoc.parse(content);
+	const transformed = Markdoc.transform(ast);
+	const html = Markdoc.renderers.html(transformed);
+	return html;
 }

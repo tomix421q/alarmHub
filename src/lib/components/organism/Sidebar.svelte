@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { ArrowRight } from '@lucide/svelte';
-	import Separator from './ui/separator/separator.svelte';
-	import Button from './ui/button/button.svelte';
+	import Separator from '../ui/separator/separator.svelte';
+	import Button from '../ui/button/button.svelte';
 	import { onMount } from 'svelte';
 	import { urlsConst } from '$lib/utils/constants/routesUrl';
 	import { afterNavigate } from '$app/navigation';
@@ -75,7 +75,7 @@
 			<span
 				class={isOpenSidebar
 					? 'hidden'
-					: 'absolute right-[-70px] z-40 hidden rounded-2xl bg-black p-2 text-sm font-semibold group-hover:block'}
+					: 'absolute right-[-60px] z-40 hidden rounded-lg bg-muted-foreground text-primary-foreground p-1 text-sm font-semibold group-hover:block mt-1'}
 			>
 				{url.title}
 			</span>

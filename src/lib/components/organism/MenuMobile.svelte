@@ -5,7 +5,7 @@
 	import Settings from '@lucide/svelte/icons/settings';
 	import * as Sheet from '$lib/components/ui/sheet/index.js';
 	import { Bot, MenuIcon } from '@lucide/svelte';
-	import Button, { buttonVariants } from './ui/button/button.svelte';
+	import Button, { buttonVariants } from '../ui/button/button.svelte';
 	import { afterNavigate } from '$app/navigation';
 
 	const items = [
