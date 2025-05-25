@@ -20,7 +20,7 @@ export class ManagedWebSocketClient {
 	private serverError = '';
 	//
 	private readonly reconnectInterval: number;
-	
+
 	public readonly emitter = new EventEmitter();
 
 	constructor(private options: WsClientOptions) {
@@ -49,9 +49,10 @@ export class ManagedWebSocketClient {
 			clearInterval(this.statusInterval);
 			this.statusInterval = null;
 		}
+
 		this.statusInterval = setInterval(() => {
 			this.emitter.emit('message', { status: this.getStatus() });
-			console.log(this.getStatus());
+			// console.log(this.getStatus());
 		}, 10000);
 	}
 
@@ -69,7 +70,7 @@ export class ManagedWebSocketClient {
 					update: { name: this.options.name },
 					create: { name: this.options.name }
 				});
-				console.log(`Stroj ${this.options.name} zaregistrovaný/aktualizovaný v DB`);
+				// console.log(`Stroj ${this.options.name} zaregistrovaný/aktualizovaný v DB`);
 			} catch (e) {
 				console.error('Chyba pri upserte stroja:', e);
 			}
@@ -96,9 +97,9 @@ export class ManagedWebSocketClient {
 		});
 
 		this.ws.on('error', (err) => {
+			this.isConnected = false;
 			this.serverError = `WebSocket error ${this.options.name}:` + err;
 			this.emitter.emit('message', { status: this.getStatus() });
-			this.emitter.emit('error', err);
 			this.logSocketError(err.message);
 			if (this.ws && this.ws.readyState !== WebSocket.CLOSED) {
 				this.ws.close();
@@ -108,7 +109,7 @@ export class ManagedWebSocketClient {
 
 	private scheduleReconnect() {
 		if (this.reconnectTimer || this.isConnected) return;
-		// console.log(`Scheduling reconnect for ${this.options.name} in ${this.reconnectInterval} ms`);
+		console.log(`Scheduling reconnect for ${this.options.name} in ${this.reconnectInterval} ms`);
 		this.serverInfo = `Scheduling reconnect for ${this.options.name} in ${this.reconnectInterval} ms`;
 		this.reconnectTimer = setTimeout(() => {
 			this.reconnectTimer = null;
@@ -147,7 +148,8 @@ export class ManagedWebSocketClient {
 			isConnected: this.isConnected,
 			manualShutdown: this.manualShutdown,
 			WSserverInfo: this.serverInfo,
-			WSserverError: this.serverError
+			WSserverError: this.serverError,
+			lastUpdate: new Date().toLocaleTimeString()
 		};
 	}
 }

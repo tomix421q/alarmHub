@@ -2,25 +2,26 @@
 	import type {
 		SuccessResponse,
 		ErrorResponse,
-		MachineDbType
+		MachineDbType,
+		Note
 	} from '$lib/utils/types/machineTypes.js';
-	import { FunnelPlus, MinusCircle, PlusCircle, Scan, X } from '@lucide/svelte';
+	import { Check, FunnelPlus, Pencil, PersonStanding, Scan, Trash, X } from '@lucide/svelte';
 	import Button from '../ui/button/button.svelte';
 	import { authClient } from '$lib/auth/auth-client';
 	import Separator from '../ui/separator/separator.svelte';
 	import { enhance } from '$app/forms';
 	import Label from '../ui/label/label.svelte';
 	import Input from '../ui/input/input.svelte';
-	import Textarea from '../ui/textarea/textarea.svelte';
-	import { slide } from 'svelte/transition';
 	import type { ActionData } from '../../../routes/(Client)/machines/[name]/$types';
-	import { afterNavigate, goto } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
-	import { hmiNoteFilters } from '$lib/stores/filter';
-	import { renderMarkdoc } from '$lib/utils/frontend';
-	import { onMount, tick } from 'svelte';
-	import AlertListFromHmi from '../molecules/AlertListFromHmi.svelte';
-	import Checkbox from '../ui/checkbox/checkbox.svelte';
+	import { hmiNoteFilters, noteEditData } from '$lib/stores/filter';
+	import { goToPage, renderMarkdoc } from '$lib/utils/frontend';
+	import { onMount } from 'svelte';
+	import AlertListFromHmi from '../molecules/note-zone/AlertListFromHmi.svelte';
+	import { TimerIcon } from 'lucide-svelte';
+	import Time from 'svelte-time/Time.svelte';
+	import AddNote from '../molecules/note-zone/AddNote.svelte';
 
 	let {
 		DB_dataStatus,
@@ -33,23 +34,20 @@
 	} = $props();
 
 	const session = authClient.useSession();
-	let isAddNoteOpen = $state(false);
 	let isOpenFilter = $state(false);
-	let noteTextInput = $state('');
-	let generatedHtmlFromMd = $state();
-	let renderedNotes = $state<any>([]);
-	let notHmiNote = $state(false);
-	let alertId = $state<number>();
+	let renderedNotes = $state<Note[]>([]);
+	let confirm = $state<number>();
 
-	function goToPage(p: number) {
-		const url = new URL(window.location.href);
-		url.searchParams.set('page', p.toString());
-		// window.location.href = url.toString();
-		goto(url.pathname + url.search, { keepFocus: true, noScroll: true, replaceState: true });
+	export interface EditableNoteData {
+		id?: number;
+		alertId?: number;
+		text?: string;
+		notHmiNote?: boolean;
 	}
 
 	// FILTERING HMI NOTESS
 	const filters = $derived(hmiNoteFilters);
+
 	function applyFilter() {
 		const params = new URLSearchParams();
 		if ($filters.alertId) params.set('alertId', $filters.alertId);
@@ -70,16 +68,13 @@
 		goto(page.url.pathname, { keepFocus: true, noScroll: true, replaceState: true });
 	}
 
-	async function toggleAddNote() {
-		isAddNoteOpen = !isAddNoteOpen;
-		if (isAddNoteOpen) {
-			await tick();
-			const el = document.getElementById('note-form');
-			if (el) {
-				el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-			}
-		}
+	// Funkcia na začatie editácie
+	export function startEditingNote(note: Note) {
+		noteEditData.set(note);
 	}
+
+	// Funkcia na zrušenie/ukončenie editácie
+	export function clearEditingNote() {}
 
 	$effect(() => {
 		hmiNoteFilters.set({
@@ -89,34 +84,27 @@
 			from: page.url.searchParams.get('from') ?? '',
 			to: page.url.searchParams.get('to') ?? ''
 		});
-		onMount(() => {
-			if ($filters.alertId || $filters.user || $filters.desc || $filters.from || $filters.to) {
-				isOpenFilter = true;
-			}
-		});
 
 		if (form?.success) {
-			noteTextInput = '';
-			clearFilter();
-			setTimeout(() => {
-				isAddNoteOpen = false;
-				form = null;
-				goToPage(1);
-			}, 7000);
+			confirm = undefined;
 		}
+
 		renderedNotes = DB_dataStatus.success
 			? DB_dataStatus.data.notes.map((note) => ({
 					...note,
 					renderedHtml: renderMarkdoc(note.alertDescription)
 				}))
 			: [];
-
-		if (notHmiNote) {
-			alertId = 0;
-		}
 	});
 
-	// $inspect(DB_dataStatus.success && DB_dataStatus);
+	onMount(() => {
+		if ($filters.alertId || $filters.user || $filters.desc || $filters.from || $filters.to) {
+			isOpenFilter = true;
+		}
+		goToPage(1);
+	});
+
+	// $inspect(renderedNotes);
 </script>
 
 <main class="flex flex-col gap-5">
@@ -126,6 +114,13 @@
 				<div class="flex flex-col gap-3 md:flex-row md:items-center">
 					<AlertListFromHmi {alertList} {DB_dataStatus} />
 					<Button
+						class={$filters.alertId ||
+						$filters.user ||
+						$filters.desc ||
+						$filters.from ||
+						$filters.to
+							? 'bg-warning'
+							: ''}
 						variant={isOpenFilter ? 'destructive' : 'outline'}
 						onclick={() => {
 							isOpenFilter = !isOpenFilter;
@@ -151,12 +146,13 @@
 			</div>
 			{#if $session?.data?.user.email && DB_dataStatus.success && DB_dataStatus.data.name}
 				<section>
-					{@render addNote()}
+					<!-- ADD NOTE COMPONENT -->
+					<AddNote {DB_dataStatus} {form} />
 				</section>
 			{/if}
 		</section>
 
-		<section class="h-auto max-h-[1000px] overflow-y-scroll pr-2">
+		<section class="mt-8 h-auto max-h-[1000px] overflow-y-scroll pr-2">
 			<div class="flex flex-col gap-y-3">
 				{@render hmiNotesList()}
 				{@render pagination()}
@@ -170,122 +166,81 @@
 		{#each renderedNotes as note}
 			<article class="bg-secondary w-full rounded-lg p-2">
 				<div class="text-muted-foreground mb-2 flex justify-between text-xs">
-					<span>
-						Alert Id: <span class="text-destructive font-bold">{note.alertId}</span>
+					<span class="italic">
+						AlertID: <span class="text-destructive font-bold">{note.alertId}</span>
 					</span>
-					<div>
+					<div class="flex gap-x-4">
 						<span class="tracking-tight">
-							<span>{note.createdAt.toLocaleString()} · </span>
+							<span class="flex">
+								<TimerIcon size={15} />
+								<Time timestamp={note.updateAt} format="D/M/YYYY·HH:mm" />
+							</span>
 						</span>
-						<span>{note.user.name || note.user.email}</span>
+						<span class="flex items-center"
+							><PersonStanding size={15} />{note.user.name || note.user.email}</span
+						>
 					</div>
 				</div>
-				<Separator class="bg-black/50" />
 
-				<div class="mt-2 w-xs text-sm tracking-tight break-words md:w-xl">
+				<div class="mt-2 w-xs text-sm tracking-tight break-words md:w-full">
 					<p class="markdoc-content">{@html note.renderedHtml}</p>
 				</div>
+				<Separator class="bg-gray-500/30 mb-1" />
+				{#if note.user.email === $session.data?.user.email}
+					<section class="flex items-center justify-between">
+						<div class="flex gap-x-2">
+							<form action="?/deletenote" method="POST" use:enhance class="flex">
+								<input type="hidden" name="noteId" value={note.id} />
+								<Button
+									size="icon"
+									variant="ghost"
+									onclick={() => {
+										if (confirm! > 0) {
+											confirm = undefined;
+										} else {
+											confirm = note.id;
+										}
+									}}
+									class="text-destructive size-8"
+								>
+									{#if confirm && confirm === note.id}
+										<X />
+									{:else}
+										<Trash />
+									{/if}</Button
+								>
+								{#if confirm && confirm === note.id}
+									<div class="flex items-center px-2 text-xs">
+										<Button size="sm" variant="destructive" type="submit" class=""
+											><Check />Confirm delete</Button
+										>
+									</div>
+								{/if}
+							</form>
+
+							<Button
+								onclick={() => startEditingNote(note)}
+								size="icon"
+								variant="ghost"
+								class="text-warning size-8"><Pencil /></Button
+							>
+						</div>
+						<p class="text-muted-foreground text-xs">#{note.id}</p>
+					</section>
+				{/if}
 			</article>{/each}
 	{/if}
 {/snippet}
 
-{#snippet addNote()}
-	<div>
-		<Button
-			class="my-4 w-full"
-			onclick={toggleAddNote}
-			variant={isAddNoteOpen ? 'destructive' : 'default'}
-		>
-			{#if isAddNoteOpen}
-				<MinusCircle /> <span>Close note form </span>
-			{:else}
-				<PlusCircle /><span>Add note to alert</span>
-			{/if}
-		</Button>
-
-		{#if $session?.data?.user.email && DB_dataStatus.success && DB_dataStatus.data.id}
-			<form
-				method="POST"
-				action={'?/addnote'}
-				class="w-full {isAddNoteOpen ? 'block' : 'hidden'}"
-				use:enhance
-				id="note-form"
-			>
-				<!-- VALIDATE INFO -->
-				<div class="my-4 text-xs">
-					{#if !form?.success}
-						{#if form?.fieldErrors}
-							<ul>
-								{#each Object.entries(form?.fieldErrors) as [field, error] (field)}
-									<li class="text-red-500">
-										<strong
-											class="text-warning
-										">{field}:</strong
-										>
-										{error}
-									</li>
-								{/each}
-							</ul>
-						{/if}
-						<p class="text-warning">{form?.error}</p>
-					{:else}
-						<p class="text-success">{form?.message}</p>
-					{/if}
-				</div>
-
-				<input
-					id="machineId"
-					name="machineId"
-					type="hidden"
-					hidden
-					value={DB_dataStatus.success && DB_dataStatus.data.id}
-				/>
-				<input type="hidden" id="user-id" name="userId" value={$session?.data?.user.id} hidden />
-
-				<div class="my-4 flex items-center gap-x-2">
-					<Label for="notHmiNote">Not hmi alert</Label>
-					<Checkbox id="notHmiNote" name="notHmiNote" bind:checked={notHmiNote} />
-				</div>
-
-				<div>
-					<Label for="alert-id">Hmi ID alert</Label>
-					<Input
-						id="alert-id"
-						disabled={notHmiNote}
-						name="alertId"
-						type="text"
-						bind:value={alertId}
-						placeholder="Insert alert id"
-					/>
-				</div>
-
-				<div>
-					<Label for="note-text">Description</Label>
-					<Textarea
-						id="note-text"
-						name="text"
-						bind:value={noteTextInput}
-						placeholder="Insert destription"
-						required
-						class="lg:min-h-[200px]"
-					/>
-				</div>
-
-				<Button type="submit" class="mt-2 w-full">Submit</Button>
-			</form>
-		{/if}
-	</div>
-{/snippet}
-
 {#snippet filter()}
 	{#if isOpenFilter}
-		<form class="bg-my-indigo text-secondary flex flex-wrap gap-3 rounded-sm p-2 text-center">
+		<form class="bg-my-indigo text-primary flex flex-wrap gap-3 rounded-lg p-2">
 			<div class="w-[140px]">
-				<Label class="text-xs font-bold">Filter by alert Id</Label>
+				<Label class="text-xs font-bold">By alert ID</Label>
 				<Input type="text" bind:value={$filters.alertId} placeholder="ID" />
 			</div>
 			<div class="w-[140px]">
-				<Label class="text-xs font-bold">Filter by user</Label>
+				<Label class="text-xs font-bold">By user</Label>
 				<Input type="text" bind:value={$filters.user} placeholder="User" />
 			</div>
 			<div class="w-[140px]">
@@ -302,9 +257,11 @@
 					<Input type="date" bind:value={$filters.to} />
 				</div>
 			</div>
-			<div class="flex items-end gap-x-2">
-				<Button variant="destructive" size="sm" onclick={clearFilter}><X />Clear</Button>
-				<Button onclick={applyFilter} type="submit" class="w-full" variant="default" size="sm"
+			<div class="mt-4 flex w-full justify-between gap-x-2">
+				<Button variant="destructive" size="sm" onclick={clearFilter} class="w-[40%]"
+					><X />Clear</Button
+				>
+				<Button onclick={applyFilter} type="submit" size="sm" class="bg-success w-[40%]"
 					><Scan />Apply</Button
 				>
 			</div>

@@ -1,17 +1,17 @@
 <script lang="ts">
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import { InfoIcon } from 'lucide-svelte';
-	import { buttonVariants } from '../ui/button/button.svelte';
-	import { HoverCard, HoverCardContent, HoverCardTrigger } from '../ui/hover-card';
-	import { cn } from '../ui/utils';
-	import { Separator } from '../ui/separator';
+	import { buttonVariants } from '../../ui/button/button.svelte';
+	import { HoverCard, HoverCardContent, HoverCardTrigger } from '../../ui/hover-card';
+	import { cn } from '../../ui/utils';
+	import { Separator } from '../../ui/separator';
 	import { type Note } from '$lib/utils/types/machineTypes';
 
 	let { alertList, DB_dataStatus } = $props();
 </script>
 
 <Dialog.Root>
-	<Dialog.Trigger class={cn(buttonVariants({ variant: 'outline' }))}>HMI alert list</Dialog.Trigger>
+	<Dialog.Trigger class={cn(buttonVariants({ variant: 'outline' }))}>List</Dialog.Trigger>
 
 	<Dialog.Content class="h-[80%] min-w-[60%] overflow-auto">
 		<Dialog.Header>

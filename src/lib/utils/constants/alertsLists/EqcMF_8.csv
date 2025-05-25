@@ -1,4 +1,4 @@
-;0_No specify fault
+;2000_No specify fault
 DB100,X0.0;1_Emergency Stop Fault
 DB100,X0.1;2_Air Pressure Low
 DB100,X0.2;3_Bottom Tool Locker signal is missing when not in ToolChange Mode

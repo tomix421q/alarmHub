@@ -1,4 +1,4 @@
-import { WS_eqc8ClientAlert, WS_eqc8ClientProdData } from '$lib/server/websocketClients';
+import { WS_eqc7ClientAlert, WS_eqc7ClientProdData } from '$lib/server/websocketClients';
 import type { RequestHandler } from '@sveltejs/kit';
 interface EmittedWebSocketData {
 	msg?: string;
@@ -45,26 +45,26 @@ export const GET: RequestHandler = ({ request }) => {
 				sendSseData({ type: 'prodData', payload: data });
 			};
 
-			WS_eqc8ClientAlert.emitter.on('message', onAlertDataHandler);
-			WS_eqc8ClientProdData.emitter.on('message', onProdDataHandler);
+			WS_eqc7ClientAlert.emitter.on('message', onAlertDataHandler);
+			WS_eqc7ClientProdData.emitter.on('message', onProdDataHandler);
 
 			request.signal.addEventListener('abort', () => {
 				if (onAlertDataHandler) {
-					WS_eqc8ClientAlert.emitter.off('message', onAlertDataHandler);
+					WS_eqc7ClientAlert.emitter.off('message', onAlertDataHandler);
 				}
 				if (onProdDataHandler) {
-					WS_eqc8ClientProdData.emitter.off('message', onProdDataHandler);
+					WS_eqc7ClientProdData.emitter.off('message', onProdDataHandler);
 				}
 			});
 		},
 
 		cancel(reason) {
 			if (onAlertDataHandler) {
-				WS_eqc8ClientAlert.emitter.off('message', onAlertDataHandler);
+				WS_eqc7ClientAlert.emitter.off('message', onAlertDataHandler);
 				// console.log('Zatvaram message emitter')
 			}
 			if (onProdDataHandler) {
-				WS_eqc8ClientProdData.emitter.off('message', onProdDataHandler);
+				WS_eqc7ClientProdData.emitter.off('message', onProdDataHandler);
 				// console.log('Zatvaram data emitter');
 			}
 		}

@@ -24,6 +24,7 @@ export type Note = {
 	updateAt: Date;
 	userId: string;
 	user: User;
+	renderedHtml? : any
 };
 
 export type MachineDbType = {

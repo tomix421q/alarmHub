@@ -4,6 +4,14 @@ export type messageAlertType = {
 	timeStamp: Date;
 };
 
+export type ProdDataType = {
+	actDowntime: number | null;
+	prodCurrentNum: number | null;
+	toolNumber: number | null;
+	toolName: string;
+	timeStamp?: Date | null;
+};
+
 export type statusType = {
 	name: string;
 	url: string;
@@ -11,4 +19,5 @@ export type statusType = {
 	manualShutdown: boolean;
 	WSserverInfo: string;
 	WSserverError: string;
+	lastUpdate: Date;
 };

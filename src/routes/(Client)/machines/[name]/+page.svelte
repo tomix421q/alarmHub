@@ -1,231 +1,101 @@
 <script lang="ts">
 	import Header from '$lib/components/molecules/HeaderText.svelte';
-	import { checkExpiredMessages, renderMarkdoc } from '$lib/utils/frontend';
-	import { ArrowDownCircle, ArrowUpCircle, InfoIcon, LoaderCircle } from '@lucide/svelte';
+	import { LoaderCircle } from '@lucide/svelte';
 	import { onMount } from 'svelte';
-	import { fade } from 'svelte/transition';
-	import Button from '$lib/components/ui/button/button.svelte';
-	import type { messageAlertType, statusType } from '$lib/utils/types/serverTypes.js';
-	import Separator from '$lib/components/ui/separator/separator.svelte';
 	import {
 		type ErrorResponse,
 		type MachineDbType,
 		type SuccessResponse
 	} from '$lib/utils/types/machineTypes.js';
 	import type { PageProps } from './$types.js';
-	import { HoverCard, HoverCardTrigger } from '$lib/components/ui/hover-card/index.js';
-	import HoverCardContent from '$lib/components/ui/hover-card/hover-card-content.svelte';
 	import { authClient } from '$lib/auth/auth-client.js';
 	import HmiNote from '$lib/components/organism/HmiNote.svelte';
+	import StateZone from '$lib/components/molecules/StateZone.svelte';
+	import HmiDisplay from '$lib/components/organism/HmiDisplay.svelte';
+	import {
+		alertMessagesFresh,
+		closeMachineStream,
+		currentProductionData,
+		initializeMachineStream,
+		isLoading,
+		serverAlertsStatus,
+		serverProdDataStatus
+	} from '$lib/stores/sseConnectStore.js';
+	import MachineInfo from '$lib/components/molecules/MachineInfo.svelte';
 
 	let { data, form }: PageProps = $props();
 
 	const MACHINENAME = data.MACHINENAME;
-	const session = authClient.useSession();
-	let eventSource: EventSource;
+	
 
-	let loading = $state(false);
-	let messages = $state<messageAlertType[]>([]);
-	let WSserverClientStatus = $state<statusType>();
+	let loading = $derived($isLoading);
+	let messages = $derived($alertMessagesFresh);
+	let WSserverAlertsStatus = $derived($serverAlertsStatus);
+	let WSserverProdDataStatus = $derived($serverProdDataStatus);
+	let currentProduction = $derived($currentProductionData);
+
 	let DB_dataStatus = $derived<ErrorResponse | SuccessResponse<MachineDbType>>(data.dbdata);
 	let alertList = $derived(data.machineAlertsListMap);
 
-	//FEATURES
-	let expandToggleHmi = $state(false);
-
-	setInterval(() => {
-		// DELETE OLD MESSAGES [check every 5 sec.]
-		checkExpiredMessages({ messages });
-	}, 4000);
-
-	// CONNECT TO SERVER SOCKET
-	function connect() {
-		loading = true;
-		eventSource = new EventSource(`/api/streams/${MACHINENAME}`);
-
-		eventSource.onopen = () => {
-			console.log('SSE connection opened');
-		};
-
-		eventSource.onmessage = (event) => {
-			let parseData = JSON.parse(event.data);
-			WSserverClientStatus = parseData.status;
-			if (parseData.msg) {
-				loading = false;
-				let parseDataAlerts: messageAlertType = JSON.parse(parseData.msg);
-				const newMsg: messageAlertType = {
-					id: parseDataAlerts.id,
-					msg: parseDataAlerts.msg,
-					timeStamp: new Date(parseDataAlerts.timeStamp)
-				};
-				// CHECK SAME FAULT/WARNING UPDATE TIMESTAMP
-				if (messages.some((m) => m.id === newMsg.id)) {
-					messages = messages.map((m) =>
-						m.id === newMsg.id ? { ...m, timeStamp: newMsg.timeStamp } : m
-					);
-				} else {
-					messages = [...messages, newMsg];
-				}
-			}
-		};
-
-		eventSource.onerror = () => {
-			console.error('SSE connection error');
-			eventSource.close();
-			setTimeout(connect, 3000);
-		};
-	}
 	onMount(() => {
-		connect();
+		initializeMachineStream(MACHINENAME);
+
 		return () => {
-			if (eventSource) eventSource.close();
+			closeMachineStream();
 		};
 	});
 
-	$inspect(form);
+	// $inspect(form);
 </script>
 
-<main class="mt-6 flex max-w-7xl flex-wrap justify-center gap-6 md:mt-12 lg:justify-between">
+<main class="mt-6 flex lg:max-w-[1400px] flex-wrap justify-between gap-y-13 md:mt-12">
 	<!-- HMI -->
-	<article
-		class=" relative flex min-h-[300px] w-full flex-col rounded-lg border p-3 shadow-2xl lg:w-[920px]"
+	<section
+		class=" relative flex min-h-[18.75rem] w-full flex-col rounded-lg border lg:p-3 shadow-2xl lg:w-5xl"
 	>
 		<Header text="Hmi Live Alerts" classNameh1="!w-fit" />
 		{#if loading}
 			<span
-				class="bg-muted-foreground text-primary flex !min-h-[250px] animate-pulse flex-col items-center justify-center text-lg font-semibold uppercase md:text-2xl"
+				class="bg-muted-foreground text-primary flex !min-h-[15.625rem] animate-pulse flex-col items-center justify-center text-lg font-semibold uppercase md:text-2xl"
 				>Loading data from hmi... <LoaderCircle
 					class="text-destructive size-12 animate-spin"
 				/></span
 			>
+		{:else if !WSserverAlertsStatus?.isConnected}
+			<span
+				class="bg-destructive text-primary flex h-auto !min-h-[15.625rem] animate-pulse flex-col items-center justify-center text-lg font-semibold uppercase md:text-2xl"
+				>Lost Connection</span
+			>
 		{:else}
-			<div
-				class=" overflow-auto {expandToggleHmi ? 'max-h-auto' : 'max-h-[300px] md:max-h-[400px]'}"
-			>
-				{@render hmi()}
-			</div>
-			<Button
-				variant="ghost"
-				size="icon"
-				class="absolute bottom-0 left-[45%] z-20 -mb-4 md:left-[50%] {messages.length > 21
-					? 'flex'
-					: 'hidden'}"
-				onclick={() => {
-					expandToggleHmi = !expandToggleHmi;
-				}}
-			>
-				{#if expandToggleHmi}
-					<ArrowUpCircle class=" text-muted-foreground !size-6" />
-				{:else}
-					<ArrowDownCircle class="text-muted-foreground !size-6" />
-				{/if}
-			</Button>
+			<HmiDisplay {messages} {DB_dataStatus} />
 		{/if}
-	</article>
+	</section>
 
 	<!-- STATE ZONE -->
-	<article class="flex max-h-[600px] w-full flex-col rounded-lg border p-3 shadow-2xl md:w-xs">
-		<Header text="State {WSserverClientStatus?.name}" classNameh1="!text-2xl" />
-		<div class="text-sm">
-			<!-- WS SERVER STATUS -->
-			<h5 class="text-muted-foreground font-thin">WS server status</h5>
-			<Separator />
-			<div class="mt-2">
-				<div class="font-bold">
-					{#if WSserverClientStatus?.isConnected}
-						<h4 class="text-success">Connected</h4>
-					{:else}
-						<h4 class="text-red-500">Disconnect</h4>
-					{/if}
-				</div>
-				<h4 class="text-muted-foreground">{WSserverClientStatus?.name}</h4>
-				<h4 class="text-muted-foreground">{WSserverClientStatus?.url}</h4>
-
-				<h4 class="text-warning">
-					{WSserverClientStatus?.WSserverInfo}
-				</h4>
-				<h4 class="text-destructive">{WSserverClientStatus?.WSserverError}</h4>
-			</div>
-			<!-- DB STATUS -->
-			<h5 class="text-muted-foreground mt-10 font-thin">Machine DB status</h5>
-			<Separator />
-			<div class="mt-2">
-				{#if DB_dataStatus.success}
-					<h4 class="text-success font-bold">Connected</h4>
-					<h4 class="text-muted-foreground text-xs">{DB_dataStatus.data.id}</h4>
-					<h4 class="text-warning">
-						<span class="text-muted-foreground w-fit tracking-tight">Last update: </span>
-						{DB_dataStatus.data.updateAt.toLocaleString()}
-					</h4>
-					<h4 class="text-warning">
-						<span class="text-muted-foreground">Number of notes:</span>
-						{(DB_dataStatus?.success && DB_dataStatus.totalItems) || 'X'}
-					</h4>
-				{:else}
-					<h4 class="font-bold text-red-500">Disconnect</h4>
-					<h4 class="text-warning">
-						{DB_dataStatus.error}
-					</h4>
-				{/if}
-			</div>
-		</div>
-	</article>
+	<section class="flex max-h-[37.5rem] w-full flex-col rounded-lg border p-3 shadow-2xl md:w-xs">
+		<Header text="State {WSserverAlertsStatus?.name}" classNameh1="!text-2xl" />
+		<StateZone {WSserverAlertsStatus} {WSserverProdDataStatus} {DB_dataStatus} />
+	</section>
 
 	<!-- NOTE ZONE -->
-	<article class="flex w-full flex-col rounded-lg border p-3 shadow-2xl lg:w-3xl">
-		<div class="flex items-center justify-between">
-			<Header text="Fault note" />
-		</div>
+	<section class="flex w-full flex-col rounded-lg border p-3 shadow-2xl lg:w-5xl ">
+		<Header text="Fault note" />
 		{#if DB_dataStatus.success}
 			<HmiNote {DB_dataStatus} {form} {alertList} />
 		{/if}
-	</article>
-</main>
+	</section>
 
-{#snippet hmi()}
-	{#each messages as msg, index (msg.id)}
-		<div
-			transition:fade
-			class="flex gap-x-2 px-0.5 {index % 2 ? 'bg-muted-foreground/60' : 'bg-muted-foreground/70'}"
-		>
-			<p class="flex text-xs md:w-[40px]">
-				ID: <span class="text-destructive font-semibold">{msg.id}</span>
-			</p>
-			<span class="text-xs tracking-tight text-black"
-				>{msg.timeStamp.toLocaleString('sk-SK', {
-					hour: '2-digit',
-					minute: '2-digit',
-					second: '2-digit'
-				})}</span
-			>
-			<p class="text-xs md:text-sm">
-				{msg.msg}
-			</p>
-			{#if DB_dataStatus.success && DB_dataStatus.data.notes.some((n) => msg.id === n.alertId.toString())}
-				<HoverCard>
-					<HoverCardTrigger class="my-auto flex size-4 items-center justify-center"
-						><InfoIcon class="text-warning size-4" /></HoverCardTrigger
-					>
-					<div>
-						<HoverCardContent
-							class="flex w-xl flex-col  gap-y-5 overflow-auto overflow-y-auto lg:max-h-[700px]"
-						>
-							{#each DB_dataStatus.data.notes.filter((n) => msg.id === n.alertId.toString()) as note}
-								<div class="text-muted-foreground flex flex-col text-xs">
-									<span>{note.createdAt.toLocaleString()}</span>
-									<span
-										>Alert ID:<span class="text-destructive font-semibold">{note.alertId}</span
-										></span
-									>
-									<span class="mb-1">{note.user.email}</span>
-									<Separator />
-									<p class="text-secondary-foreground mt-1 text-sm">{note.alertDescription}</p>
-								</div>
-							{/each}
-						</HoverCardContent>
-					</div>
-				</HoverCard>
+	<!-- PRODUCTION DATA -->
+	<section class="flex max-h-[500px] w-full flex-col rounded-lg border p-3 shadow-2xl lg:w-xs">
+		<Header text="Machine info" />
+		<div class="h-full">
+			{#if currentProduction}
+				<MachineInfo />
+			{:else}
+				<span class="mt-12 flex justify-center gap-x-2"
+					><LoaderCircle class="animate-spin text-sm font-semibold" /> Loading Data...</span
+				>
 			{/if}
 		</div>
-	{/each}
-{/snippet}
+	</section>
+</main>

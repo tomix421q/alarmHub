@@ -7,7 +7,13 @@ const machineConfigSchema = z.record(machineSchema);
 export const machinesConfigConst = {
 	eqc8: {
 		name: 'EqcMF_8',
-		url: 'ws://10.184.145.54:1880/ws/test'
+		url_alert: 'ws://10.184.145.54:1880/wsnr/alerts/eqc8',
+		url_data: 'ws://10.184.145.54:1880/wsnr/proddata/eqc8'
+	},
+	eqc7: {
+		name: 'EqcMF_7',
+		url_alert: 'ws://10.184.145.54:1880/wsnr/alerts/eqc7',
+		url_data: 'ws://10.184.145.54:1880/wsnr/proddata/eqc7'
 	}
 };
 

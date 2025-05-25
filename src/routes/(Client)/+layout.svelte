@@ -6,6 +6,7 @@
 	import MenuMobile from '$lib/components/organism/MenuMobile.svelte';
 	import ThemeButton from '$lib/components/atoms/ThemeButton.svelte';
 	import Sidebar from '$lib/components/organism/Sidebar.svelte';
+	import Footer from '$lib/components/molecules/Footer.svelte';
 
 	let { children } = $props();
 
@@ -66,3 +67,8 @@
 		{/if}
 	</article>
 </main>
+
+<!-- FOOTER -->
+<footer>
+	<Footer />
+</footer>
