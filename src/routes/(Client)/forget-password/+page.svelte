@@ -34,14 +34,14 @@
 </script>
 
 <div
-	class="flex h-screen w-full flex-col items-center justify-center bg-[url('/image2.png')] bg-cover bg-fixed bg-center bg-no-repeat"
+	class="flex h-screen w-full flex-col items-center justify-center bg-[url('/image2.png')] bg-cover bg-fixed bg-center bg-no-repeat absolute top-0 left-0"
 >
 	<h2 class="m-1 text-center text-2xl font-semibold text-white md:text-2xl">
 		Please fill your email <br /> to reset password
 	</h2>
 
 	<form
-		class="flex flex-col rounded-lg border bg-white/50 p-4 backdrop-blur-xs duration-200 ease-in hover:ring-4 hover:ring-black/70 lg:min-w-[300px]"
+		class="flex flex-col rounded-lg border bg-white/40 p-4 backdrop-blur-xs duration-200 ease-in hover:ring-4 hover:ring-black/70 lg:min-w-[300px]"
 	>
 		<div class="grid gap-2">
 			<Label for="email">Email</Label>
@@ -52,5 +52,6 @@
 		{/if}
 		<Button type="button" class="mt-6" onclick={handleSubmit}>Reset Password</Button>
 		<a href="/login" class="mt-1 text-center text-xs underline"> Back to Sign In </a>
+		<a href="/" class="mt-1 text-center text-xs underline"> Home</a>
 	</form>
 </div>

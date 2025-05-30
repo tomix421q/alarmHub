@@ -57,14 +57,14 @@
 							>
 								{#each DB_dataStatus.data.notes.filter((n) => msg.id === n.alertId.toString()) as note}
 									<div class="text-muted-foreground flex flex-col text-xs">
-										<span>{note.createdAt.toLocaleString()}</span>
+										<p class="flex justify-between"><span>{note.createdAt.toLocaleString()}</span>  <span>#{note.id}</span></p>
 										<span
 											>Alert ID:<span class="text-destructive font-semibold">{note.alertId}</span
 											></span
 										>
 										<span class="mb-1">{note.user.email}</span>
 										<Separator />
-										<p class="text-secondary-foreground mt-1 text-sm">{note.alertDescription}</p>
+										<p class="text-secondary-foreground mt-1 text-xs">{note.alertDescription}</p>
 									</div>
 								{/each}
 							</HoverCardContent>

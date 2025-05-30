@@ -57,7 +57,7 @@
 </script>
 
 <div
-  class="w-full h-screen items-center justify-center bg-[url('/image2.png')] bg-no-repeat bg-fixed bg-cover bg-center flex flex-col"
+  class="flex h-screen w-full flex-col items-center justify-center bg-[url('/image2.png')] bg-cover bg-fixed bg-center bg-no-repeat absolute top-0 left-0"
 >
   <h2 class="text-2xl text-center md:text-2xl m-1 text-white font-semibold">Reset Your Password</h2>
 

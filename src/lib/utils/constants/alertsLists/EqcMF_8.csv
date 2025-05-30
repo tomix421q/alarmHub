@@ -1,4 +1,12 @@
 ;2000_No specify fault
+;2001_Mechanical Failures
+;2002_Electrical/Electronic Failures
+;2003_Pneumatic/Hydraulic Failures
+;2004_Software/Control System Errors
+;2005_Machine Setup and Operation Errors
+;2006_Material and Infeed Problems
+;2007_Robot specific problem
+;2008_Glue machine problem
 DB100,X0.0;1_Emergency Stop Fault
 DB100,X0.1;2_Air Pressure Low
 DB100,X0.2;3_Bottom Tool Locker signal is missing when not in ToolChange Mode

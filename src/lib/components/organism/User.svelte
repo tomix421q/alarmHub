@@ -25,15 +25,13 @@
 			<User class="!size-6 " />
 		{/if}
 	</DropdownMenu.Trigger>
-	<DropdownMenu.Content class=" p-2">
+	<DropdownMenu.Content class="">
 		<DropdownMenu.Group>
-			<DropdownMenu.GroupHeading>Account</DropdownMenu.GroupHeading>
-			<DropdownMenu.Separator />
-			<DropdownMenu.Item>Profile</DropdownMenu.Item>
-			<DropdownMenu.Item>Billing</DropdownMenu.Item>
-			<DropdownMenu.Item>Team</DropdownMenu.Item>
-			<DropdownMenu.Separator />
 			{#if $session.data?.user.email}
+				<DropdownMenu.GroupHeading>Account</DropdownMenu.GroupHeading>
+				<DropdownMenu.Separator />
+				<DropdownMenu.Item><a href="/userprofile">Profile</a></DropdownMenu.Item>
+				<DropdownMenu.Separator />
 				<DropdownMenu.Item>
 					<Button variant="destructive" size="sm" onclick={handleLogout} class="w-full"
 						>Logout</Button

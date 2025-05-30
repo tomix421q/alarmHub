@@ -8,7 +8,6 @@
 		type SuccessResponse
 	} from '$lib/utils/types/machineTypes.js';
 	import type { PageProps } from './$types.js';
-	import { authClient } from '$lib/auth/auth-client.js';
 	import HmiNote from '$lib/components/organism/HmiNote.svelte';
 	import StateZone from '$lib/components/molecules/StateZone.svelte';
 	import HmiDisplay from '$lib/components/organism/HmiDisplay.svelte';
@@ -19,14 +18,15 @@
 		initializeMachineStream,
 		isLoading,
 		serverAlertsStatus,
-		serverProdDataStatus
+		serverProdDataStatus,
+		shiftCountData
 	} from '$lib/stores/sseConnectStore.js';
 	import MachineInfo from '$lib/components/molecules/MachineInfo.svelte';
+	import ChartProduction from '$lib/components/molecules/ChartProduction.svelte';
 
 	let { data, form }: PageProps = $props();
 
 	const MACHINENAME = data.MACHINENAME;
-	
 
 	let loading = $derived($isLoading);
 	let messages = $derived($alertMessagesFresh);
@@ -44,14 +44,12 @@
 			closeMachineStream();
 		};
 	});
-
-	// $inspect(form);
 </script>
 
-<main class="mt-6 flex lg:max-w-[1400px] flex-wrap justify-between gap-y-13 md:mt-12">
+<main class="mt-6 flex flex-wrap justify-between gap-y-13 md:mt-12 lg:max-w-[1400px]">
 	<!-- HMI -->
 	<section
-		class=" relative flex min-h-[18.75rem] w-full flex-col rounded-lg border lg:p-3 shadow-2xl lg:w-5xl"
+		class=" relative flex min-h-[18.75rem] w-full flex-col rounded-lg border shadow-2xl lg:w-5xl lg:p-3"
 	>
 		<Header text="Hmi Live Alerts" classNameh1="!w-fit" />
 		{#if loading}
@@ -77,17 +75,15 @@
 		<StateZone {WSserverAlertsStatus} {WSserverProdDataStatus} {DB_dataStatus} />
 	</section>
 
-	<!-- NOTE ZONE -->
-	<section class="flex w-full flex-col rounded-lg border p-3 shadow-2xl lg:w-5xl ">
-		<Header text="Fault note" />
-		{#if DB_dataStatus.success}
-			<HmiNote {DB_dataStatus} {form} {alertList} />
-		{/if}
+	<!-- CHART ZONE -->
+	<section class="flex max-h-[37.5rem] w-full flex-col rounded-lg border p-3 shadow-2xl lg:w-5xl">
+		<Header text="Production part chart" />
+		<ChartProduction />
 	</section>
 
 	<!-- PRODUCTION DATA -->
 	<section class="flex max-h-[500px] w-full flex-col rounded-lg border p-3 shadow-2xl lg:w-xs">
-		<Header text="Machine info" />
+		<Header text="Machine raw data" classNameh1="w-fit" />
 		<div class="h-full">
 			{#if currentProduction}
 				<MachineInfo />
@@ -97,5 +93,13 @@
 				>
 			{/if}
 		</div>
+	</section>
+
+	<!-- NOTE ZONE -->
+	<section class="flex w-full flex-col rounded-lg border p-3 shadow-2xl lg:w-4xl">
+		<Header text="Fault note" />
+		{#if DB_dataStatus.success}
+			<HmiNote {DB_dataStatus} {form} {alertList} />
+		{/if}
 	</section>
 </main>

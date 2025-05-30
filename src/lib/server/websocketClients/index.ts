@@ -21,12 +21,9 @@ export const WS_eqc7ClientProdData = new ManagedWebSocketClient({
 	url: machinesConfigConst.eqc7.url_data
 });
 
-WS_eqc8ClientAlert.emitter.on('open', () => console.log('Pripojenie otvorené'));
-// WS_eqc8Client.emitter.emit('message', { status: WS_eqc8Client.getStatus() });
-WS_eqc8ClientAlert.emitter.on('close', () => console.log('Pripojenie zatvorené'));
-
 WS_eqc8ClientAlert.start();
 WS_eqc8ClientProdData.start();
 WS_eqc7ClientAlert.start();
 WS_eqc7ClientProdData.start();
+
 

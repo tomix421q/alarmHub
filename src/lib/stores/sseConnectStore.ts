@@ -1,3 +1,8 @@
+import type {
+	afternoonShiftCounting,
+	morningShiftCounting,
+	nightShiftCounting
+} from '$lib/server/productionCount/eqc_8';
 import type { messageAlertType, ProdDataType, statusType } from '$lib/utils/types/serverTypes';
 import { derived, writable } from 'svelte/store';
 
@@ -7,6 +12,13 @@ const MESSAGE_EXPIRY = 5000;
 let eventSourceInstance: EventSource | null = null;
 let currentMachineName: string | null = null;
 let reconnectTimeoutId: number | null = null;
+
+interface ShiftCountData {
+	morning: typeof morningShiftCounting;
+	afternoon: typeof afternoonShiftCounting;
+	night: typeof nightShiftCounting;
+	timestamp: string;
+}
 
 // WRITABLES
 export const isLoading = writable(false);
@@ -19,6 +31,48 @@ export const currentProductionData = writable<ProdDataType>({
 	toolNumber: null,
 	toolName: 'N/A',
 	timeStamp: null
+});
+export const shiftCountData = writable<ShiftCountData>({
+	morning: {
+		time_06: 0,
+		time_07: 0,
+		time_08: 0,
+		time_09: 0,
+		time_10: 0,
+		time_11: 0,
+		time_12: 0,
+		time_13: 0,
+		morningShift_count: 0,
+		date: new Date(),
+		finish: false
+	},
+	afternoon: {
+		time_14: 0,
+		time_15: 0,
+		time_16: 0,
+		time_17: 0,
+		time_18: 0,
+		time_19: 0,
+		time_20: 0,
+		time_21: 0,
+		afternoonShift_count: 0,
+		date: new Date(),
+		finish: false
+	},
+	night: {
+		time_22: 0,
+		time_23: 0,
+		time_00: 0,
+		time_01: 0,
+		time_02: 0,
+		time_03: 0,
+		time_04: 0,
+		time_05: 0,
+		nightShift_count: 0,
+		date: new Date(),
+		finish: false
+	},
+	timestamp: new Date().toISOString()
 });
 
 // CLEAR OLD MESSAGES
@@ -121,6 +175,9 @@ function connect(MACHINENAME: string) {
 						return updatedData;
 					});
 				}
+			} else if (parseData.type === 'shiftCount') {
+				const shiftData = parseData.payload as ShiftCountData;
+				shiftCountData.set(shiftData);
 			}
 			isLoading.set(false);
 		} catch (e) {

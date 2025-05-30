@@ -11,14 +11,17 @@
 </script>
 
 <Dialog.Root>
-	<Dialog.Trigger class={cn(buttonVariants({ variant: 'outline' }))}>List</Dialog.Trigger>
+	<Dialog.Trigger class={cn(buttonVariants({ variant: 'outline' }))}>List IDs</Dialog.Trigger>
 
 	<Dialog.Content class="h-[80%] min-w-[60%] overflow-auto">
 		<Dialog.Header>
-			<Dialog.Title>Hmi alert list</Dialog.Title>
+			<Dialog.Title class="text-2xl">Fault category</Dialog.Title>
 			<Dialog.Description>
 				<div class="text-muted-foreground flex flex-col items-start text-xs">
 					{#each alertList as alert}
+						{#if alert[0] === 1}
+							<h4 class="text-warning text-lg">Hmi alert list</h4>
+						{/if}
 						<div class="flex gap-x-2">
 							<span>{alert[0]} - {alert[1]}</span>
 
@@ -33,15 +36,18 @@
 										>
 											{#each DB_dataStatus.data.notes.filter((n: any) => n.alertId.toString() === alert[0].toString()) as note}
 												<div class="text-muted-foreground flex flex-col text-xs">
-													<span>{note.createdAt.toLocaleString()}</span>
+													<p class="flex justify-between">
+														{note.createdAt.toLocaleString()} <span>#{note.id}</span>
+													</p>
 													<span>
-														Alert ID:<span class="text-destructive font-semibold"
+														Alert Id:<span class="text-destructive font-semibold"
 															>{note.alertId}</span
 														>
 													</span>
+
 													<span class="mb-1">{note.user.email}</span>
 													<Separator />
-													<p class="text-secondary-foreground mt-1 text-sm">
+													<p class="text-secondary-foreground mt-1 text-xs">
 														{note.alertDescription}
 													</p>
 												</div>

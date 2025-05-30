@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client';
-// import { PrismaClient } from '../../../prisma/generated';
 
 // Deklarácia globálneho typu pre Prisma, aby TypeScript vedel, že takáto premenná existuje.
 declare global {

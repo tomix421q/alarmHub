@@ -7,16 +7,16 @@
 		SuccessResponse
 	} from '$lib/utils/types/machineTypes';
 	import { MinusCircle, PlusCircle } from 'lucide-svelte';
-	import { getContext, tick } from 'svelte';
+	import { tick } from 'svelte';
 	import type { ActionData } from '../../../../routes/(Client)/machines/[name]/$types';
 	import { enhance } from '$app/forms';
 	import Label from '$lib/components/ui/label/label.svelte';
-	import Checkbox from '$lib/components/ui/checkbox/checkbox.svelte';
 	import Input from '$lib/components/ui/input/input.svelte';
 	import Textarea from '$lib/components/ui/textarea/textarea.svelte';
 	import { Text } from '@lucide/svelte';
 	import { goToPage, renderMarkdoc } from '$lib/utils/frontend';
 	import { noteEditData } from '$lib/stores/filter';
+	import * as RadioGroup from '$lib/components/ui/radio-group/index.js';
 
 	let {
 		form,
@@ -29,6 +29,7 @@
 	let isMdEditorOpen = $state(false);
 	let isUpdateNoteActive = $state(false);
 	let alertId = $state<number>();
+	let radioAlertId = $state<string>('hmi');
 	let notHmiNote = $state(false);
 	let noteTextInput = $state('');
 	let generatedHtmlFromMd = $state();
@@ -48,21 +49,25 @@
 	$effect(() => {
 		if (form?.success) {
 			goToPage(1);
+			noteTextInput = '';
+			notHmiNote = false;
+			alertId = undefined;
+			generatedHtmlFromMd = null;
+			isMdEditorOpen = false;
 			setTimeout(() => {
-				noteTextInput = '';
-				notHmiNote = false;
-				alertId = undefined;
-				generatedHtmlFromMd = null;
-				isMdEditorOpen = false;
-				isAddNoteOpen = false
+				isAddNoteOpen = false;
 				form = null;
-			}, 2000);
+			}, 6000);
 		}
 		if (noteTextInput) {
 			generatedHtmlFromMd = renderMarkdoc(noteTextInput);
 		}
-		if (notHmiNote) {
-			alertId = 2000;
+		if (radioAlertId && radioAlertId !== 'hmi') {
+			alertId = Number(radioAlertId);
+			notHmiNote = true;
+		} else if (radioAlertId === 'hmi' && notHmiNote) {
+			notHmiNote = false;
+			alertId = undefined;
 		}
 	});
 
@@ -91,7 +96,7 @@
 		}
 	});
 
-	// $inspect($noteEditData);
+	$inspect(radioAlertId);
 </script>
 
 <main>
@@ -148,22 +153,86 @@
 			<!-- pre description -->
 			<div class="flex flex-col gap-x-2">
 				<div class="my-4 flex items-center gap-x-2 {isUpdateNoteActive && 'hidden'}">
-					<Checkbox id="notHmiNote" name="notHmiNote" bind:checked={notHmiNote} />
-					<Label for="notHmiNote" class="">Not hmi alert</Label>
+					<!-- <Checkbox id="notHmiNote" name="notHmiNote" bind:checked={notHmiNote} />
+					<Label for="notHmiNote" class="">Not hmi alert</Label> -->
+
+					<!--  -->
+					<RadioGroup.Root bind:value={radioAlertId} class="mb-4 grid grid-cols-2 text-xs">
+						<div class="flex items-center space-x-2">
+							<RadioGroup.Item value={'hmi'} id="option-2" />
+							<Label for="option-one">Specific Hmi ID <span class="text-muted">[1-999]</span></Label
+							>
+						</div>
+						<div class="flex items-center space-x-2">
+							<RadioGroup.Item value="2001" id="option-2" />
+							<Label for="option-one"
+								>Mechanical Failures <span class="text-muted">[2001]</span></Label
+							>
+						</div>
+						<div class="flex items-center space-x-2">
+							<RadioGroup.Item value="2002" id="option-3" />
+							<Label for="option-one"
+								>Electrical/Electronic Failures <span class="text-muted">[2002]</span></Label
+							>
+						</div>
+						<div class="flex items-center space-x-2">
+							<RadioGroup.Item value="2003" id="option-4" />
+							<Label for="option-one"
+								>Pneumatic/Hydraulic Failures <span class="text-muted">[2003]</span></Label
+							>
+						</div>
+						<div class="flex items-center space-x-2">
+							<RadioGroup.Item value="2004" id="option-5" />
+							<Label for="option-one"
+								>Software/Control System Errors <span class="text-muted">[2004]</span></Label
+							>
+						</div>
+						<div class="flex items-center space-x-2">
+							<RadioGroup.Item value="2005" id="option-6" />
+							<Label for="option-one"
+								>Machine Setup and Operation Errors <span class="text-muted">[2005]</span></Label
+							>
+						</div>
+						<div class="flex items-center space-x-2">
+							<RadioGroup.Item value="2006" id="option-7" />
+							<Label for="option-one"
+								>Material and Infeed Problems <span class="text-muted">[2006]</span></Label
+							>
+						</div>
+
+						<div class="flex items-center space-x-2">
+							<RadioGroup.Item value="2007" id="option-1" />
+							<Label for="option-one"
+								>Robot specific problem <span class="text-muted">[2007]</span></Label
+							>
+						</div>
+						<div class="flex items-center space-x-2">
+							<RadioGroup.Item value="2008" id="option-1" />
+							<Label for="option-one"
+								>Glue machine problem <span class="text-muted">[2008]</span></Label
+							>
+						</div>
+						<div class="flex items-center space-x-2">
+							<RadioGroup.Item value="2000" id="option-1" />
+							<Label for="option-one">No specify fault <span class="text-muted">[2000]</span></Label
+							>
+						</div>
+					</RadioGroup.Root>
 				</div>
-				<div class=" flex-1">
-					<Label for="alert-id">Hmi ID alert</Label>
+
+				<div class="flex-1">
+					<Label for="alert-id">Alert/Note ID</Label>
 					<Input
 						id="alert-id"
 						readonly={notHmiNote || isUpdateNoteActive}
 						name="alertId"
 						type="text"
 						bind:value={alertId}
-						placeholder="Insert alert id"
+						placeholder="Insert hmi alert id"
 					/>
 				</div>
 				<div class={isUpdateNoteActive ? 'flex-1' : 'hidden'}>
-					<Label for="note-id" class="">Note Id</Label>
+					<Label for="note-id">Note Id</Label>
 					<Input type="number" id="note-id" name="noteId" value={$noteEditData?.id} readonly />
 				</div>
 			</div>

@@ -5,7 +5,7 @@
 		MachineDbType,
 		Note
 	} from '$lib/utils/types/machineTypes.js';
-	import { Check, FunnelPlus, Pencil, PersonStanding, Scan, Trash, X } from '@lucide/svelte';
+	import { Check, Pencil, PersonStanding, Scan, Trash, X } from '@lucide/svelte';
 	import Button from '../ui/button/button.svelte';
 	import { authClient } from '$lib/auth/auth-client';
 	import Separator from '../ui/separator/separator.svelte';
@@ -19,7 +19,7 @@
 	import { goToPage, renderMarkdoc } from '$lib/utils/frontend';
 	import { onMount } from 'svelte';
 	import AlertListFromHmi from '../molecules/note-zone/AlertListFromHmi.svelte';
-	import { TimerIcon } from 'lucide-svelte';
+	import { FunnelPlus, TimerIcon } from 'lucide-svelte';
 	import Time from 'svelte-time/Time.svelte';
 	import AddNote from '../molecules/note-zone/AddNote.svelte';
 

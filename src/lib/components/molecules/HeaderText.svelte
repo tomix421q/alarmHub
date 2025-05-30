@@ -14,14 +14,14 @@
 
 <h1 class="text-my-indigo relative w-fit text-xl font-bold md:text-2xl mb-10 {classNameh1}">
 	{text}
-	<span class="absolute -bottom-4 left-0 flex w-full flex-col gap-1 md:-bottom-5">
+	<span class="absolute -bottom-4 left-0 flex w-full flex-col gap-1 md:-bottom-3 overflow-hidden">
 		<span
-			class="block h-1 rounded-4xl bg-indigo-400 md:ml-10 md:h-2 {effectLine1
+			class="block h-1 rounded-4xl bg-indigo-400 md:ml-10 md:h-1 {effectLine1
 				? '!h-0.5 -translate-x-1/4'
 				: ''} transition-all duration-500 ease-linear"
 		></span>
 		<span
-			class="block h-1 rounded-4xl bg-my-emerald md:mr-10 md:h-2 {effectLine2
+			class="block h-1 rounded-4xl bg-my-emerald md:mr-10 md:h-1 {effectLine2
 				? '!h-0.5 translate-x-1/4'
 				: ''} transition-all duration-500 ease-linear"
 		></span>
