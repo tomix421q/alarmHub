@@ -12,14 +12,14 @@ export const urlsConst = [
 	},
 	{
 		icon: BrainCircuit,
-		title: 'Eqc 8',
+		title: 'Eqc-MF 8',
 		shortname: 'MF8',
-		url: `/machines/${machinesConfigConst.eqc8.name}`
+		url: `/machines/eqc-mf/${machinesConfigConst.eqc8.name}`
 	},
 	{
 		icon: MailCheckIcon,
-		title: 'Eqc 7',
+		title: 'Eqc-MF 7',
 		shortname: 'MF7',
-		url: `/machines/${machinesConfigConst.eqc7.name}`
+		url: `/machines/eqc-mf/${machinesConfigConst.eqc7.name}`
 	}
 ];

@@ -12,7 +12,7 @@
 	import { enhance } from '$app/forms';
 	import Label from '../ui/label/label.svelte';
 	import Input from '../ui/input/input.svelte';
-	import type { ActionData } from '../../../routes/(Client)/machines/[name]/$types';
+	import type { ActionData } from '../../../routes/(Client)/machines/eqc-mf/[name]/$types';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 	import { hmiNoteFilters, noteEditData } from '$lib/stores/filter';
@@ -38,13 +38,6 @@
 	let renderedNotes = $state<Note[]>([]);
 	let confirm = $state<number>();
 
-	export interface EditableNoteData {
-		id?: number;
-		alertId?: number;
-		text?: string;
-		notHmiNote?: boolean;
-	}
-
 	// FILTERING HMI NOTESS
 	const filters = $derived(hmiNoteFilters);
 
@@ -67,14 +60,10 @@
 		});
 		goto(page.url.pathname, { keepFocus: true, noScroll: true, replaceState: true });
 	}
-
-	// Funkcia na začatie editácie
-	export function startEditingNote(note: Note) {
+	// CLICK ON EDIT
+	function startEditingNote(note: Note) {
 		noteEditData.set(note);
 	}
-
-	// Funkcia na zrušenie/ukončenie editácie
-	export function clearEditingNote() {}
 
 	$effect(() => {
 		hmiNoteFilters.set({
@@ -104,7 +93,7 @@
 		goToPage(1);
 	});
 
-	// $inspect(renderedNotes);
+	$inspect(form);
 </script>
 
 <main class="flex flex-col gap-5">
@@ -166,8 +155,15 @@
 		{#each renderedNotes as note}
 			<article class="bg-secondary w-full rounded-lg p-2">
 				<div class="text-muted-foreground mb-2 flex justify-between text-xs">
-					<span class="italic">
-						AlertID: <span class="text-destructive font-bold">{note.alertId}</span>
+					<span class="max-sm:group">
+						Category ID: <span class="font-semibold text-red-500">{note.alertId}</span>
+						{#each alertList as alertID}
+							{#if alertID[0] === note.alertId}
+								<span class="text-warning hidden text-xs group-hover:inline-block lg:inline-block"
+									>- {alertID[1]}</span
+								>
+							{/if}
+						{/each}
 					</span>
 					<div class="flex gap-x-4">
 						<span class="tracking-tight">
@@ -184,8 +180,21 @@
 
 				<div class="mt-2 w-xs text-sm tracking-tight break-words md:w-full">
 					<p class="markdoc-content">{@html note.renderedHtml}</p>
+					<!--  -->
+					<!-- PHOTOS -->
+					<div>
+						<ul class="mb-6 flex flex-wrap gap-2">
+							{#each note.images as image}
+								<li class="overflow-hidden rounded-md object-cover shadow-2xl *:h-35 *:w-60">
+									<img src={image.url} alt="note img" />
+								</li>
+							{/each}
+						</ul>
+					</div>
 				</div>
-				<Separator class="bg-gray-500/30 mb-1" />
+				<Separator class="mb-1 bg-gray-500/30" />
+				<!--  -->
+				<!-- DELETE BY OWNER USER -->
 				{#if note.user.email === $session.data?.user.email}
 					<section class="flex items-center justify-between">
 						<div class="flex gap-x-2">
@@ -211,7 +220,7 @@
 								>
 								{#if confirm && confirm === note.id}
 									<div class="flex items-center px-2 text-xs">
-										<Button size="sm" variant="destructive" type="submit" class=""
+										<Button size="sm" variant="destructive" type="submit"
 											><Check />Confirm delete</Button
 										>
 									</div>
@@ -257,6 +266,7 @@
 					<Input type="date" bind:value={$filters.to} />
 				</div>
 			</div>
+
 			<div class="mt-4 flex w-full justify-between gap-x-2">
 				<Button variant="destructive" size="sm" onclick={clearFilter} class="w-[40%]"
 					><X />Clear</Button

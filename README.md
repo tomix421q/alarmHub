@@ -224,7 +224,17 @@ npm install better-auth
 }
 ```
 
+### prisma help
+
 rm -rf node_modules/.prisma
 rm -rf prisma/generated # ak tam máš výstup clienta
 npm install
 npx prisma generate
+
+### content type for images help lib (locate headtype exp.when is png so : Content-Type: image/png)
+
+npm install mime-types
+npm install -D @types/mime-types
+
+
+

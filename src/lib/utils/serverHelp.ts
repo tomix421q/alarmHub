@@ -1,5 +1,7 @@
+import { noteEditData } from './../stores/filter';
 import { readFileSync } from 'fs';
-import path, { parse } from 'path';
+import { unlink, writeFile } from 'node:fs/promises';
+import path, { extname, resolve } from 'path';
 import prisma from '$lib/server/prisma';
 import type { ErrorResponse, MachineDbType, SuccessResponse } from './types/machineTypes';
 import { addNoteSchema, EditNoteType } from './zod/zodclient';
@@ -7,6 +9,10 @@ import { fail } from '@sveltejs/kit';
 import prismaClient from '$lib/server/prisma';
 import type { Note, Prisma } from '@prisma/client';
 import { auth } from '$lib/auth/auth';
+import { nanoid } from 'nanoid';
+import { env } from 'node:process';
+
+const UPLOAD_DIR = env.UPLOAD_PHOTO_NOTE_ABSOLUTE ?? '';
 
 export function loadAlertsCsvByName(machineName: string): Map<number, string> {
 	if (machineName === 'EqcMF_7') machineName = 'EqcMF_8';
@@ -93,7 +99,7 @@ export async function getMachineNotesResponse({
 	const [notes, count] = await Promise.all([
 		prisma.note.findMany({
 			where,
-			include: { user: true },
+			include: { user: true, images: true },
 			orderBy: { updateAt: 'desc' },
 			take: limit,
 			skip: (page - 1) * limit
@@ -113,6 +119,13 @@ export async function getMachineNotesResponse({
 	};
 }
 
+export async function getUserServer({ request }: { request: Request }) {
+	const session = await auth.api.getSession({
+		headers: request.headers
+	});
+	return session?.user ?? null;
+}
+
 export async function createNote(
 	formDataRaw: Record<string, any>,
 	machineAlertListMap: Map<number, string>
@@ -121,6 +134,7 @@ export async function createNote(
 		...formDataRaw,
 		alertId: formDataRaw.alertId ? Number(formDataRaw.alertId) : undefined
 	};
+
 	const parseZod = addNoteSchema.safeParse(formData);
 
 	if (parseZod.data?.alertId !== undefined && !machineAlertListMap.has(parseZod.data.alertId)) {
@@ -131,9 +145,13 @@ export async function createNote(
 			fieldErrors: {
 				alertId: 'Invalid alert ID.'
 			},
-			values: formData
+			values: {
+				...formData,
+				noteImages: undefined
+			}
 		} as ErrorResponse);
 	}
+
 	if (!parseZod.success) {
 		const fieldErrors = parseZod.error.errors.reduce(
 			(acc, e) => {
@@ -148,7 +166,10 @@ export async function createNote(
 			error: 'Validation failed',
 			isFormError: true,
 			fieldErrors,
-			values: formData
+			values: {
+				...formData,
+				noteImages: undefined // alebo vynechaj úplne
+			}
 		} as ErrorResponse);
 	}
 
@@ -160,6 +181,35 @@ export async function createNote(
 			userId: parseZod.data.userId
 		}
 	});
+
+	// images proccesing_____ IS IMAGE????
+	const noteImages = parseZod.data?.noteImages;
+	if (noteImages && noteImages.length > 0) {
+		const imageRecords = [];
+		for (const imageFile of noteImages) {
+			try {
+				const fileExtension = extname(imageFile.name);
+				const uniqueFilename = `${nanoid()}${fileExtension}`;
+				// path to save the image
+				const imagePath = resolve(UPLOAD_DIR, uniqueFilename);
+				const buffer = Buffer.from(await imageFile.arrayBuffer());
+				await writeFile(imagePath, buffer);
+				// public URL for frontend
+				const url = `/uploads/${uniqueFilename}`;
+				imageRecords.push({ url, noteId: newNote.id });
+			} catch (error) {
+				console.error('Error saving one of the images:', error);
+				return fail(500, {
+					success: false,
+					error: 'Failed to save one of the uploaded images.',
+					isFormError: true
+				} as ErrorResponse);
+			}
+		}
+		if (imageRecords.length > 0) {
+			await prismaClient.noteImage.createMany({ data: imageRecords });
+		}
+	}
 
 	return {
 		success: true,
@@ -176,8 +226,17 @@ export async function editNote(
 		id: Number(formDataRaw.noteId),
 		alertId: formDataRaw.alertId ? Number(formDataRaw.alertId) : undefined
 	};
-	const parseZod = EditNoteType.safeParse(formData);
+	const noteId = Number(formDataRaw.noteId);
+	const imagesToDelete: number[] = formDataRaw.imagesToDelete
+		? (formDataRaw.imagesToDelete as string[]).map(Number)
+		: [];
+	const newImages = formDataRaw.noteImages as File[];
 
+	if (isNaN(noteId)) {
+		return fail(400, { success: false, error: 'Invalid Note ID.' });
+	}
+
+	const parseZod = EditNoteType.safeParse(formData);
 	if (!parseZod.success) {
 		const fieldErrors = parseZod.error.errors.reduce(
 			(acc, e) => {
@@ -195,38 +254,75 @@ export async function editNote(
 		} as ErrorResponse);
 	}
 
+	//find machine db
 	const findNote = await prismaClient.note.findUnique({
 		where: { id: parseZod.data.id }
 	});
-	const editNote: Note = await prismaClient.note.update({
-		where: {
-			id: findNote?.id
-		},
-		data: {
-			alertDescription: parseZod.data.text
-		}
-	});
-	if (!findNote || !editNote) {
-		return fail(400, {
-			success: false,
-			error: `Note with ID ${parseZod.data.id} does not exist.`,
-			isFormError: false,
-			values: formData
-		} as ErrorResponse);
+	//update note db
+	try {
+		const updatedNote = await prismaClient.$transaction(async (prisma) => {
+			//update note
+			const note = await prisma.note.update({
+				where: { id: noteId },
+				data: {
+					alertDescription: formDataRaw.text as string
+				}
+			});
+
+			// process images to delete
+			if (imagesToDelete.length > 0) {
+				const images = await prisma.noteImage.findMany({
+					where: { id: { in: imagesToDelete }, noteId: noteId }
+				});
+
+				// delete images from disk
+				for (const image of images) {
+					const filename = image.url.split('/').pop();
+					if (filename) {
+						try {
+							const imagePath = resolve(UPLOAD_DIR, filename);
+							await unlink(imagePath);
+						} catch (e) {
+							console.error(`Failed to delete file: ${filename}`, e);
+						}
+					}
+				}
+
+				// delete images from db
+				await prisma.noteImage.deleteMany({
+					where: { id: { in: imagesToDelete }, noteId: noteId }
+				});
+			}
+
+			// add new notes
+			if (newImages && newImages.length > 0) {
+				const imageRecords = [];
+				for (const imageFile of newImages) {
+					const fileExtension = extname(imageFile.name);
+					const uniqueFilename = `${nanoid()}${fileExtension}`;
+					const imagePath = resolve(UPLOAD_DIR, uniqueFilename);
+					const buffer = Buffer.from(await imageFile.arrayBuffer());
+					await writeFile(imagePath, buffer);
+					const url = `/uploads/${uniqueFilename}`;
+					imageRecords.push({ url, noteId: note.id });
+				}
+				if (imageRecords.length > 0) {
+					await prisma.noteImage.createMany({ data: imageRecords });
+				}
+			}
+
+			return note;
+		});
+
+		return {
+			success: true,
+			message: 'Note updated successfully.',
+			data: updatedNote
+		};
+	} catch (error) {
+		console.error('Error updating note:', error);
+		return fail(500, { success: false, error: 'Failed to update note.' });
 	}
-
-	return {
-		success: true,
-		message: 'Note updated successfully.',
-		data: editNote
-	};
-}
-
-export async function getUserServer({ request }: { request: Request }) {
-	const session = await auth.api.getSession({
-		headers: request.headers
-	});
-	return session?.user ?? null;
 }
 
 export async function deleteNoteById(
@@ -236,39 +332,51 @@ export async function deleteNoteById(
 	try {
 		const noteToDelete = await prismaClient.note.findUnique({
 			where: { id: noteId },
-			select: { user: true, machine: { select: { name: true } } }
+			include: {
+				user: { select: { email: true } },
+				images: true
+			}
 		});
 
-		if (noteToDelete?.user.email !== userEmail) {
-			return fail(400, {
-				success: false,
-				error: 'User error this note didnt asociate with user',
-				isFormError: true
-			} as ErrorResponse);
+		if (!noteToDelete) {
+			return fail(404, { success: false, error: 'Note not found.' });
 		}
 
-		if (!noteToDelete) {
-			return fail(404, {
-				success: false,
-				error: 'Poznámka s daným ID nebola nájdená.',
-				isFormError: true
-			} as ErrorResponse);
+		if (noteToDelete.user.email !== userEmail) {
+			return fail(403, { success: false, error: 'Not authorized.' });
+		}
+
+		if (noteToDelete.images.length > 0) {
+			for (const image of noteToDelete.images) {
+				console.log(image.url);
+				const filename = image.url.split('/').pop();
+				if (filename) {
+					try {
+						const imagePath = resolve(UPLOAD_DIR, filename);
+						await unlink(imagePath);
+					} catch (e: any) {
+						if (e.code !== 'ENOENT') {
+							return fail(404, { success: false, error: 'Image notfound on disk' });
+						}
+					}
+				}
+			}
 		}
 
 		await prismaClient.note.delete({
 			where: { id: noteId }
 		});
+
 		return {
 			success: true,
-			message: 'Note was successfully deleted.',
+			message: 'Note and associated images were successfully deleted.',
 			data: { deletedNoteId: noteId }
 		};
 	} catch (error: any) {
-		console.error('Serverová chyba pri mazaní poznámky:', error);
+		console.error('Server error while deleting note:', error);
 		return fail(500, {
 			success: false,
-			error: `Nastala serverová chyba: ${error.message || 'Neznáma chyba'}`,
-			isFormError: true
-		} as ErrorResponse);
+			error: `A server error occurred: ${error.message || 'Unknown error'}`
+		});
 	}
 }

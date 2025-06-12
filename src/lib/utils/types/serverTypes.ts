@@ -31,8 +31,8 @@ export type morningShift_count = {
 	time_11: number;
 	time_12: number;
 	time_13: number;
-	morningShift_count?: number;
-	date: Date,
+	morningShift_count?: number | null;
+	date: Date;
 	finish: boolean;
 };
 export type afternoonShift_count = {
@@ -44,7 +44,7 @@ export type afternoonShift_count = {
 	time_19: number;
 	time_20: number;
 	time_21: number;
-	afternoonShift_count?: number;
+	afternoonShift_count?: number | null;
 	date: Date;
 	finish: boolean;
 };
@@ -57,7 +57,7 @@ export type nightShift_count = {
 	time_03: number;
 	time_04: number;
 	time_05: number;
-	nightShift_count?: number;
+	nightShift_count?: number | null;
 	date: Date;
 	finish: boolean;
 };

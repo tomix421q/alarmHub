@@ -49,7 +49,7 @@
 <main class="mt-6 flex flex-wrap justify-between gap-y-13 md:mt-12 lg:max-w-[1400px]">
 	<!-- HMI -->
 	<section
-		class=" relative flex min-h-[18.75rem] w-full flex-col rounded-lg border shadow-2xl lg:w-5xl lg:p-3"
+		class=" relative flex min-h-[18.75rem] w-full flex-col rounded-lg border shadow-2xl lg:w-4xl lg:p-3"
 	>
 		<Header text="Hmi Live Alerts" classNameh1="!w-fit" />
 		{#if loading}
@@ -76,7 +76,7 @@
 	</section>
 
 	<!-- CHART ZONE -->
-	<section class="flex max-h-[37.5rem] w-full flex-col rounded-lg border p-3 shadow-2xl lg:w-5xl">
+	<section class="flex max-h-[37.5rem] w-full flex-col rounded-lg border p-3 shadow-2xl lg:w-4xl">
 		<Header text="Production part chart" />
 		<ChartProduction />
 	</section>

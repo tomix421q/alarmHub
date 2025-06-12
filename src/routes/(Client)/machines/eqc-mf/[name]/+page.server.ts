@@ -37,10 +37,24 @@ export const load: PageServerLoad = async ({ params, url }) => {
 
 export const actions: Actions = {
 	addnote: async (event) => {
-		const formDataRaw = Object.fromEntries(await event.request.formData());
+		// const formDataRaw = Object.fromEntries(await event.request.formData());
+		const formData = await event.request.formData();
+		const Allimages = formData.getAll('noteImages') as File[];
+		const validImages = Allimages.filter((file) => file.size > 0);
+
+		const formDataRaw = {
+			noteId: formData.get('noteId'),
+			machineId: formData.get('machineId'),
+			alertId: formData.get('alertId'),
+			text: formData.get('text'),
+			userId: formData.get('userId'),
+			noteImages: validImages
+		};
 
 		if (formDataRaw.noteId) {
-			const editData = await editNote(formDataRaw);
+			const imagesToDelete = formData.getAll('imagesToDelete')
+			const fullFormData = {...formDataRaw,imagesToDelete}
+			const editData = await editNote(fullFormData);
 			return editData;
 		} else {
 			const noteData = await createNote(formDataRaw, machineAlertsListMap);

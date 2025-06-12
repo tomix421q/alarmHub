@@ -5,6 +5,7 @@ import type {
 } from '$lib/utils/types/serverTypes';
 import { WS_eqc8ClientProdData } from '../websocketClients';
 
+// MORNING
 export let morningShiftCounting: morningShift_count = {
 	time_06: 0,
 	time_07: 0,
@@ -36,6 +37,7 @@ function totalSum_morningShift() {
 		morningShiftCounting.time_13);
 }
 
+// AFTERNOON
 export let afternoonShiftCounting: afternoonShift_count = {
 	time_14: 0,
 	time_15: 0,
@@ -67,6 +69,7 @@ function totalSum_afternoonShift() {
 		afternoonShiftCounting.time_21);
 }
 
+//NIGHT
 export let nightShiftCounting: nightShift_count = {
 	time_22: 0,
 	time_23: 0,
@@ -98,6 +101,8 @@ function totalSum_nightShift() {
 		nightShiftCounting.time_05);
 }
 
+
+// CORE FUNC
 export function aggregateShift() {
 	let oldValue = 0;
 	WS_eqc8ClientProdData.emitter.on('message', (data) => {

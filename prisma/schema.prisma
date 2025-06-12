@@ -104,8 +104,16 @@ model Note {
   createdAt   DateTime @default(now())
   updateAt    DateTime @updatedAt
   userId      String
+  images      NoteImage[]
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   machine     Machines @relation(fields: [machineId], references: [id], onDelete: Cascade)
+}
+
+model NoteImage {
+  id        Int    @id @default(autoincrement())
+  url       String
+  note      Note   @relation(fields: [noteId], references: [id], onDelete: Cascade)
+  noteId    Int
 }
 
 model SocketError {

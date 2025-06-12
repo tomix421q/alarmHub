@@ -42,7 +42,7 @@ export const shiftCountData = writable<ShiftCountData>({
 		time_11: 0,
 		time_12: 0,
 		time_13: 0,
-		morningShift_count: 0,
+		morningShift_count: null,
 		date: new Date(),
 		finish: false
 	},
@@ -55,7 +55,7 @@ export const shiftCountData = writable<ShiftCountData>({
 		time_19: 0,
 		time_20: 0,
 		time_21: 0,
-		afternoonShift_count: 0,
+		afternoonShift_count: null,
 		date: new Date(),
 		finish: false
 	},
@@ -68,7 +68,7 @@ export const shiftCountData = writable<ShiftCountData>({
 		time_03: 0,
 		time_04: 0,
 		time_05: 0,
-		nightShift_count: 0,
+		nightShift_count: null,
 		date: new Date(),
 		finish: false
 	},
@@ -198,6 +198,48 @@ export function initializeMachineStream(MACHINENAME: string) {
 		isLoading.set(false);
 		return;
 	}
+	shiftCountData.set({
+		morning: {
+			time_06: 0,
+			time_07: 0,
+			time_08: 0,
+			time_09: 0,
+			time_10: 0,
+			time_11: 0,
+			time_12: 0,
+			time_13: 0,
+			morningShift_count: null,
+			date: new Date(),
+			finish: false
+		},
+		afternoon: {
+			time_14: 0,
+			time_15: 0,
+			time_16: 0,
+			time_17: 0,
+			time_18: 0,
+			time_19: 0,
+			time_20: 0,
+			time_21: 0,
+			afternoonShift_count: null,
+			date: new Date(),
+			finish: false
+		},
+		night: {
+			time_22: 0,
+			time_23: 0,
+			time_00: 0,
+			time_01: 0,
+			time_02: 0,
+			time_03: 0,
+			time_04: 0,
+			time_05: 0,
+			nightShift_count: null,
+			date: new Date(),
+			finish: false
+		},
+		timestamp: new Date().toISOString()
+	});
 	connect(MACHINENAME);
 }
 

@@ -24,7 +24,13 @@ export type Note = {
 	updateAt: Date;
 	userId: string;
 	user: User;
-	renderedHtml? : any
+	images: NoteImages[];
+	renderedHtml?: any;
+};
+
+export type NoteImages = {
+	id: number;
+	url: string;
 };
 
 export type MachineDbType = {

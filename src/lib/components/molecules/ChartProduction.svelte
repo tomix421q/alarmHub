@@ -19,8 +19,13 @@
 	let activeAfternoonShift = $state(false);
 	let activeNightShift = $state(false);
 	let liveShift = $state('');
+	let loadingExpired = $state(false);
 
 	let actuallHod = $state(new Date().getHours());
+
+	setTimeout(() => {
+		loadingExpired = true;
+	}, 5000);
 
 	onMount(() => {
 		if (actuallHod >= 22 || (actuallHod >= 0 && actuallHod < 6)) {
@@ -64,7 +69,7 @@
 	}
 
 	const morningShiftData = $derived([
-		{ time: '06h', count: Number($shiftCountData.morning.time_06) },
+		{ time: '06h', count: $shiftCountData.morning.time_06 },
 		{ time: '07h', count: $shiftCountData.morning.time_07 },
 		{ time: '08h', count: $shiftCountData.morning.time_08 },
 		{ time: '09h', count: $shiftCountData.morning.time_09 },
@@ -97,6 +102,7 @@
 		time: { label: 'Time', color: 'hsl(228, 96%, 89%)' }
 	} satisfies Chart.ChartConfig;
 
+	// $inspect($shiftCountData);
 </script>
 
 <main class="flex w-full flex-col lg:flex-row">
@@ -104,8 +110,10 @@
 		<!-- morning -->
 		{#if activeMorningShift}
 			<Chart.Container config={chartConfig} class="relative mt-4">
-				{#if !$shiftCountData.morning.morningShift_count}
+				{#if $shiftCountData.morning.morningShift_count === 0 || ($shiftCountData.morning.morningShift_count === null && loadingExpired)}
 					<span class="absolute top-[40%] animate-bounce text-xl md:left-[41%]">No data...</span>
+				{:else if !loadingExpired && !$shiftCountData.morning.morningShift_count}
+					<span class="absolute top-[40%] animate-bounce text-xl md:left-[41%]">Loading...</span>
 				{/if}
 
 				<BarChart
@@ -139,8 +147,10 @@
 		<!-- afternoon  -->
 		{#if activeAfternoonShift}
 			<Chart.Container config={chartConfig} class="relative mt-4">
-				{#if !$shiftCountData.afternoon.afternoonShift_count}
+				{#if $shiftCountData.afternoon.afternoonShift_count === 0 || ($shiftCountData.afternoon.afternoonShift_count === null && loadingExpired)}
 					<span class="absolute top-[40%] animate-bounce text-xl md:left-[41%]">No data...</span>
+				{:else if !loadingExpired && $shiftCountData.afternoon.afternoonShift_count === null}
+					<span class="absolute top-[40%] animate-bounce text-xl md:left-[41%]">Loading...</span>
 				{/if}
 
 				<BarChart
@@ -174,8 +184,10 @@
 		<!-- night  -->
 		{#if activeNightShift}
 			<Chart.Container config={chartConfig} class="relative mt-4">
-				{#if !$shiftCountData.night.nightShift_count}
+				{#if $shiftCountData.night.nightShift_count === 0 || ($shiftCountData.night.nightShift_count === null && loadingExpired)}
 					<span class="absolute top-[40%] animate-bounce text-xl md:left-[41%]">No data...</span>
+				{:else if !loadingExpired && $shiftCountData.night.nightShift_count === null}
+					<span class="absolute top-[40%] animate-bounce text-xl md:left-[41%]">Loading...</span>
 				{/if}
 
 				<BarChart
