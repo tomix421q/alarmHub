@@ -14,17 +14,17 @@
 	});
 </script>
 
-<main class="space-y-2 lg:space-y-0.5">
+<main class="space-y-2 lg:space-y-1">
 	{#each urlsConst as url}
 		<div class="group relative flex justify-center">
 			<Button
-				variant="ghost"
+				variant="sidebar"
 				class="{currentPath === url.url ? '!bg-secondary' : ''} {url.title === 'Home'
-					? 'text-accent-foreground font-bold tracking-widest uppercase'
+					? 'bg-my-indigo tracking-wides font-bold text-primary'
 					: ''} !w-full"
 				href={url.url}
 			>
-				<p class={'md:text-md font-exo max-sm:text-2xl'}>{url.title}</p>
+				<p class={'md:text-md font-exo max-sm:text-md'}>{url.title}</p>
 			</Button>
 		</div>
 	{/each}

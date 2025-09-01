@@ -5,7 +5,6 @@
 	import Input from '$lib/components/ui/input/input.svelte';
 	import Label from '$lib/components/ui/label/label.svelte';
 	import { loginSchema } from '$lib/utils/zod/auth';
-	import { ExternalLinkIcon } from '@lucide/svelte';
 	import { onMount } from 'svelte';
 	import { slide } from 'svelte/transition';
 
@@ -76,15 +75,14 @@
 	}
 </script>
 
-
 <main
-	class="flex h-screen w-full flex-col items-center justify-center bg-[url('/image2.png')] bg-cover bg-fixed bg-center bg-no-repeat absolute top-0 left-0"
+	class="absolute top-0 left-0 flex h-screen w-full flex-col items-center justify-center bg-[url('/image2.png')] bg-cover bg-fixed bg-center bg-no-repeat"
 >
 	<h2 class="m-1 text-2xl font-semibold text-white">Login</h2>
 	<!-- Login form -->
 	<form
 		onsubmit={handleSubmit}
-		class="hover:ring-my-indigo flex flex-col rounded-xl border bg-secondary/50 p-4 shadow-2xl shadow-black backdrop-blur-xs duration-150 ease-in hover:ring-4 min-w-[320px]"
+		class="glass-effect flex min-w-[320px] flex-col rounded-xl border p-4 duration-150 ease-in"
 	>
 		<div>
 			<Label for="email">Email</Label>
@@ -94,7 +92,7 @@
 				id="email"
 				bind:value={email}
 				disabled={loading}
-				class="focus-visible:ring-my-indigo border-my-indigo focus-visible:ring-2"
+				class="focus-visible:ring-my-indigo border-my-indigo focus-visible:ring-1"
 				placeholder="Your Email"
 			/>
 		</div>
@@ -106,7 +104,7 @@
 				id="password"
 				bind:value={password}
 				disabled={loading}
-				class="focus-visible:ring-my-indigo border-my-indigo focus-visible:ring-2"
+				class="focus-visible:ring-my-indigo border-my-indigo focus-visible:ring-1"
 				placeholder="Your Password"
 			/>
 		</div>
@@ -129,23 +127,23 @@
 			{/if}
 		</Button>
 
-		<div class="mx-auto flex max-w-[280px] flex-wrap justify-center gap-x-4 mt-6">
+		<div class="mx-auto mt-6 flex max-w-[280px] flex-wrap justify-center gap-x-4">
 			<a href="/register" class="mt-1 text-center text-xs text-clip underline">Register </a>
 			<a href="/" class="mt-1 text-center text-xs underline">Home</a>
 
-			<button
+			<!-- <button
 				type="button"
 				onclick={() => (openResendEmail = !openResendEmail)}
 				class="mt-1 text-center text-xs underline">Resend verification email</button
 			>
 			<a href="/forget-password" class="mt-1 text-center text-xs underline">
 				Forgot your password?
-			</a>
+			</a> -->
 		</div>
 	</form>
 
 	<!-- Resend mail form -->
-	{#if openResendEmail}
+	<!-- {#if openResendEmail}
 		<div transition:slide class=" mt-4 min-w-[320px] rounded-xl bg-white/50 p-4 backdrop-blur-xs">
 			<form onsubmit={sendVerificationEmail} class="flex flex-col gap-y-2">
 				<Label for="emailToVerify">Email</Label>
@@ -164,5 +162,5 @@
 	{/if}
 	<Button onclick={socialLogin} variant="outline" class="mt-4"
 		><ExternalLinkIcon /> Log-in with google</Button
-	>
+	> -->
 </main>

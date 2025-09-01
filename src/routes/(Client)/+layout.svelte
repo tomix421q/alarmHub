@@ -32,20 +32,20 @@
 	<!-- LEFT -->
 	<a href="/" class=" flex items-center gap-x-1 p-1 font-bold uppercase">
 		<BellRingIcon class="text-primary fill-primary " />
-		<span class="font-indie m-0 p-0 pt-1 text-xl font-bold tracking-wider">Alarify</span>
+		<span class="font-indie m-0 p-0 pt-1 text-lg font-bold tracking-widest">Faultify</span>
 	</a>
 	<!-- RIGHT  -->
-	<section class="flex items-center">
-		<MenuMobile />
-		<User />
+	<section class="z-40 flex items-center">
 		<ThemeButton />
+		<User />
+		<MenuMobile />
 	</section>
 </header>
 <Separator />
 
 <main class="flex flex-row">
 	<!-- SIDEBAR -->
-	<article class={hideHeader.includes(currentPath) ? 'hidden' : 'block'}>
+	<article class="{hideHeader.includes(currentPath) ? 'hidden' : 'lg:block'} hidden">
 		<Sidebar />
 	</article>
 
@@ -69,6 +69,6 @@
 </main>
 
 <!-- FOOTER -->
-<footer>
+<footer class={hideHeader.includes(currentPath) ? 'hidden' : 'block'}>
 	<Footer />
 </footer>

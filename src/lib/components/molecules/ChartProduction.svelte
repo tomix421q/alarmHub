@@ -256,9 +256,9 @@
 		</article>
 
 		<!--  -->
-		<article class="font-exo mt-6 w-fit text-xs md:text-xl">
+		<article class="font-exo mt-6 text-xs md:text-xl w-full">
 			{#if activeMorningShift && $shiftCountData.morning.morningShift_count}
-				<div class="flex">
+				<div class="flex lg:flex-col justify-around">
 					<p>
 						Total - <span class="text-primary font-bold"
 							>{$shiftCountData.morning.morningShift_count}</span
@@ -271,7 +271,7 @@
 					</p>
 				</div>
 			{:else if activeAfternoonShift && $shiftCountData.afternoon.afternoonShift_count}
-				<div>
+				<div class="flex lg:flex-col justify-around">
 					<p>
 						Total - <span class="text-primary font-bold"
 							>{$shiftCountData.afternoon.afternoonShift_count}</span
@@ -287,7 +287,7 @@
 					</p>
 				</div>
 			{:else if activeNightShift && $shiftCountData.night.nightShift_count}
-				<div class="flex space-x-12 md:flex-col">
+				<div class="flex lg:flex-col justify-around">
 					<p>
 						Total - <span class="text-primary font-bold">
 							{$shiftCountData.night.nightShift_count}</span

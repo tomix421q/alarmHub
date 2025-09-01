@@ -1,9 +1,11 @@
 import type {
-	afternoonShiftCounting,
-	morningShiftCounting,
-	nightShiftCounting
-} from '$lib/server/productionCount/eqc_8';
-import type { messageAlertType, ProdDataType, statusType } from '$lib/utils/types/serverTypes';
+	afternoonShift_count,
+	messageAlertType,
+	morningShift_count,
+	nightShift_count,
+	ProdDataType,
+	statusType
+} from '$lib/utils/types/serverTypes';
 import { derived, writable } from 'svelte/store';
 
 const MESSAGE_EXPIRY = 5000;
@@ -14,9 +16,9 @@ let currentMachineName: string | null = null;
 let reconnectTimeoutId: number | null = null;
 
 interface ShiftCountData {
-	morning: typeof morningShiftCounting;
-	afternoon: typeof afternoonShiftCounting;
-	night: typeof nightShiftCounting;
+	morning: morningShift_count;
+	afternoon: afternoonShift_count;
+	night: nightShift_count;
 	timestamp: string;
 }
 
@@ -87,6 +89,13 @@ function clearReconnectTimeout() {
 		clearTimeout(reconnectTimeoutId);
 		reconnectTimeoutId = null;
 	}
+	currentProductionData.set({
+		actDowntime: null,
+		prodCurrentNum: null,
+		toolNumber: null,
+		toolName: 'N/A',
+		timeStamp: null
+	});
 }
 
 function scheduleReconnect(machName: string) {
@@ -147,15 +156,26 @@ function connect(MACHINENAME: string) {
 				serverProdDataStatus.set(parseData.payload.status);
 				if (parseData.payload.msg) {
 					const parsedProdData = JSON.parse(parseData.payload.msg);
-					currentProductionData.update((previousData) => {
-						const updatedData = { ...(previousData || {}) };
 
-						// get values from payload
-						const actDowntimeValue = parsedProdData['ProdData-actDowntime'];
-						const prodCurrentNumValue = parsedProdData['ProdData-prodCurrentNum'];
-						const toolNumberValue = parsedProdData['ProdData-toolNumber'];
-						const toolNameValue = parsedProdData['ProdData-toolName'];
-						const timeStampFromPayload = parsedProdData['timeStamp'];
+					currentProductionData.update((previousData) => {
+						const incomingData = { ...parsedProdData };
+
+						const actDowntimeValue = incomingData['ProdData-actDowntime'];
+						delete incomingData['ProdData-actDowntime'];
+
+						const prodCurrentNumValue = incomingData['ProdData-prodCurrentNum'];
+						delete incomingData['ProdData-prodCurrentNum'];
+
+						const toolNumberValue = incomingData['ProdData-toolNumber'];
+						delete incomingData['ProdData-toolNumber'];
+
+						const toolNameValue = incomingData['ProdData-toolName'];
+						delete incomingData['ProdData-toolName'];
+
+						const timeStampFromPayload = incomingData['timeStamp'];
+						delete incomingData['timeStamp'];
+
+						const updatedData: ProdDataType = { ...(previousData || {}) };
 
 						if (typeof actDowntimeValue === 'number') {
 							updatedData.actDowntime = actDowntimeValue;
@@ -172,6 +192,9 @@ function connect(MACHINENAME: string) {
 						if (timeStampFromPayload) {
 							updatedData.timeStamp = new Date(timeStampFromPayload);
 						}
+
+						// add other incoming data if exist
+						Object.assign(updatedData, incomingData);
 						return updatedData;
 					});
 				}

@@ -1,8 +1,18 @@
 <script lang="ts">
 	import { currentProductionData } from '$lib/stores/sseConnectStore';
+	import { standardProdDataKeys, type ProdDataType } from '$lib/utils/types/serverTypes';
 
 	let currentProduction = $derived($currentProductionData);
 
+	let customDataEntries = $derived.by(() => {
+		if (!currentProduction) {
+			return [];
+		}
+
+		return Object.entries(currentProduction).filter(
+			([key]) => !standardProdDataKeys.includes(key as keyof ProdDataType)
+		);
+	});
 	// $inspect('');
 </script>
 
@@ -50,6 +60,21 @@
 				<p>N/A</p>
 			{/if}
 		</article>
+		{#if customDataEntries.length > 0}
+			<span class=" text-center">···</span>
+
+			<!-- custom next data  -->
+			<ul class="mt-1 space-y-1">
+				{#each customDataEntries as [key, value]}
+					<li class="flex">
+						<p class="mr-2">{key}:</p>
+						<p class="text-info font-bold">
+							{typeof value === 'object' && value !== null ? JSON.stringify(value) : value}
+						</p>
+					</li>
+				{/each}
+			</ul>
+		{/if}
 	</section>
 	<div class="text-muted-foreground mt-2 text-center text-xs">
 		{#if currentProduction.timeStamp !== null}

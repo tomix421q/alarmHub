@@ -10,7 +10,16 @@ export type ProdDataType = {
 	toolNumber: number | null;
 	toolName: string;
 	timeStamp?: Date | null;
+	customData?: Record<string, any>;
 };
+
+export const standardProdDataKeys: (keyof ProdDataType)[] = [
+	'actDowntime',
+	'prodCurrentNum',
+	'toolNumber',
+	'toolName',
+	'timeStamp'
+];
 
 export type statusType = {
 	name: string;

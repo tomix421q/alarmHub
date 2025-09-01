@@ -8,6 +8,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  USER
+  ENGINEER
+  ADMIN
+  MODERATOR
+}
+
+
 model User {
   id                  String    @id
   name                String
@@ -16,10 +24,11 @@ model User {
   image               String?
   createdAt           DateTime
   updatedAt           DateTime
-  faultsMachinesNotes Note[]
   accounts            Account[]
   sessions            Session[]
-
+  role                Role @default(USER)
+  addedNotes          Note[] @relation("UserAddedNotes")
+  likedNotes          NoteLike[] @relation("UserLikes")
   @@map("user")
 }
 
@@ -71,7 +80,7 @@ model Machines {
   id           String        @id @default(uuid())
   name         String        @unique
   updateAt     DateTime      @updatedAt
-  notes        Note[]
+  notesInMachines MachineNote[] @relation("MachineNotesRelation")
   socketErrors SocketError[]
   subscribers  Subscriber[]
   topTenToday  TopTenToday[]
@@ -98,15 +107,34 @@ model TopTenToday {
 
 model Note {
   id          Int      @id @default(autoincrement())
-  alertId     Int 
+  alertId     Int
+  alertCategory String?
   alertDescription String
-  machineId   String
   createdAt   DateTime @default(now())
   updateAt    DateTime @updatedAt
   userId      String
   images      NoteImage[]
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  machine     Machines @relation(fields: [machineId], references: [id], onDelete: Cascade)
+  user        User     @relation("UserAddedNotes",fields: [userId], references: [id], onDelete: Cascade)
+  likes       NoteLike[] @relation("NoteLikes")
+  machinesOfNote MachineNote[] @relation("MachineNotesRelation")
+}
+
+model MachineNote {
+  noteId    Int
+  machineId String
+  assignedAt DateTime @default(now())
+  note      Note     @relation("MachineNotesRelation", fields: [noteId], references: [id], onDelete: Cascade)
+  machine   Machines @relation("MachineNotesRelation", fields: [machineId], references: [id], onDelete: Cascade)
+  @@id([noteId, machineId])
+}
+
+model NoteLike {
+  noteId    Int
+  userId    String
+  createdAt DateTime @default(now())
+  note      Note     @relation("NoteLikes", fields: [noteId], references: [id], onDelete: Cascade)
+  user      User     @relation("UserLikes", fields: [userId], references: [id], onDelete: Cascade) 
+  @@id([noteId, userId])
 }
 
 model NoteImage {

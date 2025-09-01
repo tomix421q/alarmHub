@@ -1,19 +1,19 @@
-import nodemailer from 'nodemailer'
+import nodemailer from 'nodemailer';
 
 // Konfigurácia SMTP transportu
 const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 465, 
-  secure: true, // true pre port 465, false pre ostatné porty
-  auth: {
-    user: 'zilka.tomas421@gmail.com',
-    pass: 'zfpy ofmd gddy rdim',
-  },
-})
+	host: 'smtp.gmail.com',
+	port: 465,
+	secure: true, // true pre port 465, false pre ostatné porty
+	auth: {
+		user: 'zilka.tomas421@gmail.com',
+		pass: 'zfpy ofmd gddy rdim'
+	}
+});
 
 export async function sendResetPasswordEmail(url: string, user: { email: string; name?: string }) {
-  try {
-    const html = `
+	try {
+		const html = `
       <!DOCTYPE html>
       <html>
       <head>
@@ -35,33 +35,33 @@ export async function sendResetPasswordEmail(url: string, user: { email: string;
         </div>
       </body>
       </html>
-    `
+    `;
 
-    // Definujeme email správu
-    const mailOptions = {
-      from: 'zilka.tomas421@gmail.com', 
-      to: user.email,
-      subject: 'Reset hesla',
-      html: html,
-    }
+		// Definujeme email správu
+		const mailOptions = {
+			from: 'zilka.tomas421@gmail.com',
+			to: user.email,
+			subject: 'Password reset',
+			html: html
+		};
 
-    // Odoslanie emailu
-    const info = await transporter.sendMail(mailOptions)
-    return info
-  } catch (error) {
-    console.error('Chyba pri odosielaní emailu:', error)
-    throw error
-  }
+		// Odoslanie emailu
+		const info = await transporter.sendMail(mailOptions);
+		return info;
+	} catch (error) {
+		console.error('Chyba pri odosielaní emailu:', error);
+		throw error;
+	}
 }
 
 // Funkcia na test SMTP pripojenia
 export async function verifyConnection() {
-  try {
-    await transporter.verify()
-    console.log('SMTP server je pripravený na odosielanie emailov')
-    return true
-  } catch (error) {
-    console.error('Chyba pri pripájaní k SMTP serveru:', error)
-    return false
-  }
+	try {
+		await transporter.verify();
+		console.log('SMTP server je pripravený na odosielanie emailov');
+		return true;
+	} catch (error) {
+		console.error('Chyba pri pripájaní k SMTP serveru:', error);
+		return false;
+	}
 }

@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { array, z } from 'zod';
 
 const MAX_FILE_SIZE_MB = 5;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
@@ -14,7 +14,16 @@ const fileSchema = z
 	);
 
 export const addNoteSchema = z.object({
-	machineId: z.string(),
+	machineIds: z
+		.string({ required_error: 'Machine IDs are required.' })
+		.min(1, 'At least one machine ID is required.')
+		.transform((str) =>
+			str
+				.split(',')
+				.map((s) => s.trim())
+				.filter((s) => s.length > 0)
+		)
+		.refine((arr) => arr.length > 0, 'At least one machine ID is required.'),
 	alertId: z.number().min(0, 'Please fill id of alert.'),
 	text: z.string().min(10, 'Minimum characters is 10 letters.').max(255, 'Maximum letters is 255.'),
 	userId: z.string(),
@@ -27,7 +36,16 @@ export const addNoteSchema = z.object({
 
 export const EditNoteType = z.object({
 	id: z.number(),
-	machineId: z.string(),
+	machineIds: z
+		.string({ required_error: 'Machine IDs are required.' })
+		.min(1, 'At least one machine ID is required.')
+		.transform((str) =>
+			str
+				.split(',')
+				.map((s) => s.trim())
+				.filter((s) => s.length > 0)
+		)
+		.refine((arr) => arr.length > 0, 'At least one machine ID is required.'),
 	alertId: z.number().min(0, 'Please fill id of alert.'),
 	text: z.string().min(10, 'Minimum characters is 10 letters.').max(255, 'Maximum letters is 255.'),
 	userId: z.string(),

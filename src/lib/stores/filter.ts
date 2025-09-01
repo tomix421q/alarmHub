@@ -2,6 +2,7 @@ import type { Note } from '$lib/utils/types/machineTypes';
 import { writable } from 'svelte/store';
 
 export type HmiNoteFilters = {
+	noteId: string;
 	alertId: string;
 	user: string;
 	desc: string;
@@ -10,12 +11,12 @@ export type HmiNoteFilters = {
 };
 
 export const hmiNoteFilters = writable<HmiNoteFilters>({
+	noteId: '',
 	alertId: '',
 	user: '',
 	desc: '',
 	from: '',
 	to: ''
 });
-
 
 export const noteEditData = writable<Note | null>();

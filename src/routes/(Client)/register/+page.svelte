@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { authClient } from '$lib/auth/auth-client.js';
+	import { authClient } from '$lib/auth/auth-client';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Input from '$lib/components/ui/input/input.svelte';
 	import Label from '$lib/components/ui/label/label.svelte';
-	import { ExternalLinkIcon } from '@lucide/svelte';
+
 	let email = $state('');
 	let name = $state('');
 	let password = $state('');
@@ -29,7 +29,7 @@
 			},
 			{
 				onSuccess: (ctx: any) => {
-					goto('/');
+					goto('/login');
 				},
 				onError: (ctx: any) => {
 					if (ctx.error.status === 403) {
@@ -55,19 +55,19 @@
 </script>
 
 <main
-	class="z-50 flex h-screen w-full flex-col items-center justify-center bg-[url('/image2.png')] bg-cover bg-fixed bg-center bg-no-repeat absolute left-0 top-0"
+	class="absolute top-0 left-0 z-50 flex h-screen w-full flex-col items-center justify-center bg-[url('/image2.png')] bg-cover bg-fixed bg-center bg-no-repeat"
 >
 	<h2 class="m-1 text-2xl font-semibold text-white">Register</h2>
 	<form
 		onsubmit={handleSubmit}
-		class="hover:ring-my-indigo flex flex-col rounded-xl border bg-secondary/50 p-4 backdrop-blur-2xl duration-200 ease-in hover:ring-4 min-w-[320px]"
+		class="glass-effect flex min-w-[320px] flex-col rounded-xl p-4 duration-200 ease-in"
 	>
 		<div>
 			<Label for="name">Name</Label>
 			<Input
 				type="text"
 				id="name"
-				class="focus-visible:ring-my-indigo border-my-indigo focus-visible:ring-2 "
+				class="focus-visible:ring-my-indigo border-my-indigo focus-visible:ring-1 "
 				bind:value={name}
 				required
 				placeholder="Your Name"
@@ -83,7 +83,7 @@
 				required
 				disabled={loading}
 				placeholder="Your Email"
-				class="focus-visible:ring-my-indigo focus-visible:ring-2 border-my-indigo"
+				class="focus-visible:ring-my-indigo border-my-indigo focus-visible:ring-1"
 			/>
 		</div>
 		<div>
@@ -95,7 +95,7 @@
 				required
 				disabled={loading}
 				placeholder="Your Password"
-				class="focus-visible:ring-my-indigo focus-visible:ring-2 border-my-indigo"
+				class="focus-visible:ring-my-indigo border-my-indigo focus-visible:ring-1"
 			/>
 		</div>
 		<div>
@@ -107,12 +107,12 @@
 				required
 				disabled={loading}
 				placeholder="Confirm Password"
-				class="focus-visible:ring-my-indigo focus-visible:ring-2 border-my-indigo"
+				class="focus-visible:ring-my-indigo border-my-indigo focus-visible:ring-1"
 			/>
 		</div>
 
 		{#if errorMsg}
-			<p class="text-destructive mt-1 text-sm">{errorMsg}</p>
+			<p class="text-destructive mt-1 bg-black px-2 text-sm">{errorMsg}</p>
 		{/if}
 
 		<Button type="submit" disabled={loading} class="mt-6">
@@ -122,12 +122,12 @@
 				Register
 			{/if}
 		</Button>
-		<div class="flex justify-center gap-x-2 mt-6">
+		<div class="mt-6 flex justify-center gap-x-2">
 			<a href="/" class="mt-1 text-center text-xs underline">Home</a>
 			<a href="/login" class="mt-1 text-center text-xs underline">Login</a>
 		</div>
 	</form>
-	<Button onclick={socialLogin} variant="outline" class="mt-4"
+	<!-- <Button onclick={socialLogin} variant="outline" class="mt-4"
 		><ExternalLinkIcon /> Continue with google</Button
-	>
+	> -->
 </main>

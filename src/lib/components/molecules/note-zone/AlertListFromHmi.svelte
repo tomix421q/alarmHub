@@ -13,7 +13,7 @@
 <Dialog.Root>
 	<Dialog.Trigger class={cn(buttonVariants({ variant: 'outline' }))}>List IDs</Dialog.Trigger>
 
-	<Dialog.Content class="h-[80%] min-w-[60%] overflow-auto">
+	<Dialog.Content class="h-[80%] w-[90%] overflow-auto lg:min-w-[60%] rounded-lg">
 		<Dialog.Header>
 			<Dialog.Title class="text-2xl">Fault category</Dialog.Title>
 			<Dialog.Description>
@@ -32,7 +32,7 @@
 									</HoverCardTrigger>
 									<div>
 										<HoverCardContent
-											class="flex w-xl flex-col gap-y-5 overflow-auto overflow-y-auto lg:max-h-[700px]"
+											class="bg-muted flex w-xl flex-col gap-y-5 overflow-auto overflow-y-auto lg:max-h-[700px]"
 										>
 											{#each DB_dataStatus.data.notes.filter((n: any) => n.alertId.toString() === alert[0].toString()) as note}
 												<div class="text-muted-foreground flex flex-col text-xs">

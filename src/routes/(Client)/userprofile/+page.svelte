@@ -1,36 +1,33 @@
 <script lang="ts">
-	import { authClient } from '$lib/auth/auth-client';
-	import Button from '$lib/components/ui/button/button.svelte';
+	import Card from '$lib/components/ui/card/card.svelte';
+	import { userProfileUrlsConst } from '$lib/utils/constants/constants';
 
-	const session = authClient.useSession();
+	let { data } = $props();
+	let stats = $derived(data.userprofile.stats);
+
+	// $inspect(stats);
 </script>
 
 <main>
-	<div class="mt-22 flex flex-col leading-6 md:leading-12 text-sm md:text-xl">
-		<div>
-			{$session.data?.user.image}
-		</div>
-		<div>
-			<span class="text-primary font-bold">Email - </span> <span>{$session.data?.user.email}</span>
-		</div>
-		<div>
-			<span class="text-primary font-bold">Is verify email - </span>
-			<span>{$session.data?.user.emailVerified}</span>
-		</div>
-		<div>
-			<span class="text-primary font-bold">Name - </span> <span>{$session.data?.user.name}</span>
-		</div>
-		<div>
-			<span class="text-primary font-bold">Created - </span>
-			<span>{$session.data?.user.createdAt}</span>
-		</div>
-		<div>
-			<span class="text-primary font-bold">User id - </span> <span>{$session.data?.user.id}</span>
-		</div>
+	<h1 class="text-muted-foreground underline">{userProfileUrlsConst[0].title}</h1>
 
-      <!-- change password -->
-       <div>
-         <Button href='/forget-password'>Change password</Button>
-       </div>
+	<!-- STATS -->
+	<div
+		class="glass-effect mt-8 flex w-fit items-center justify-center rounded-lg border p-2 text-center"
+	>
+		<h3 class="mr-16 min-w-[200px] text-start text-xl font-semibold">My notes <br />Total</h3>
+		<span class="text-my-emerald bg-muted-foreground min-w-[70px] rounded-md p-2 text-4xl font-bold"
+			>{stats.noteAdded}</span
+		>
+	</div>
+	<div
+		class="glass-effect mt-8 flex w-fit items-center justify-center rounded-lg border p-2 text-center"
+	>
+		<h3 class="mr-16 min-w-[200px] text-start text-xl font-semibold">
+			Favorites Post <br /> Total
+		</h3>
+		<span class="text-my-indigo bg-muted-foreground min-w-[70px] rounded-md p-2 text-3xl font-bold"
+			>{stats.noteLiked}</span
+		>
 	</div>
 </main>

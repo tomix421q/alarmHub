@@ -1,5 +1,7 @@
+import { eqc7mf_aggregatorCount } from '$lib/server/productionCount';
 import { WS_eqc7ClientAlert, WS_eqc7ClientProdData } from '$lib/server/websocketClients';
 import type { RequestHandler } from '@sveltejs/kit';
+
 interface EmittedWebSocketData {
 	msg?: string;
 	status: {
@@ -12,14 +14,22 @@ interface EmittedWebSocketData {
 		lastUpdate: Date;
 	};
 }
+interface ShiftCountData {
+	morning: typeof eqc7mf_aggregatorCount.morningShiftCounting;
+	afternoon: typeof eqc7mf_aggregatorCount.afternoonShiftCounting;
+	night: typeof eqc7mf_aggregatorCount.nightShiftCounting;
+	timestamp: string;
+}
+
 interface SSEDataPayload {
-	type: 'alert' | 'prodData';
-	payload: EmittedWebSocketData;
+	type: 'alert' | 'prodData' | 'shiftCount';
+	payload: EmittedWebSocketData | ShiftCountData;
 }
 //SSE
 export const GET: RequestHandler = ({ request }) => {
 	let onAlertDataHandler: (data: EmittedWebSocketData) => void;
 	let onProdDataHandler: (data: EmittedWebSocketData) => void;
+	let shiftCountInterval: NodeJS.Timeout;
 
 	const stream = new ReadableStream({
 		start(controller) {
@@ -35,12 +45,10 @@ export const GET: RequestHandler = ({ request }) => {
 				}
 			};
 
-			// Handler pre správy z WS_eqc8ClientAlert
 			onAlertDataHandler = (data) => {
 				sendSseData({ type: 'alert', payload: data });
 			};
 
-			// Handler pre správy z WS_eqc8ClientProdData
 			onProdDataHandler = (data) => {
 				sendSseData({ type: 'prodData', payload: data });
 			};
@@ -48,12 +56,27 @@ export const GET: RequestHandler = ({ request }) => {
 			WS_eqc7ClientAlert.emitter.on('message', onAlertDataHandler);
 			WS_eqc7ClientProdData.emitter.on('message', onProdDataHandler);
 
+			// shift part count
+			shiftCountInterval = setInterval(() => {
+				const shiftData: ShiftCountData = {
+					morning: eqc7mf_aggregatorCount.morningShiftCounting,
+					afternoon: eqc7mf_aggregatorCount.afternoonShiftCounting,
+					night: eqc7mf_aggregatorCount.nightShiftCounting,
+					timestamp: new Date().toISOString()
+				};
+
+				sendSseData({ type: 'shiftCount', payload: shiftData });
+			}, 5000);
+
 			request.signal.addEventListener('abort', () => {
 				if (onAlertDataHandler) {
 					WS_eqc7ClientAlert.emitter.off('message', onAlertDataHandler);
 				}
 				if (onProdDataHandler) {
 					WS_eqc7ClientProdData.emitter.off('message', onProdDataHandler);
+				}
+				if (shiftCountInterval) {
+					clearInterval(shiftCountInterval);
 				}
 			});
 		},
@@ -66,6 +89,9 @@ export const GET: RequestHandler = ({ request }) => {
 			if (onProdDataHandler) {
 				WS_eqc7ClientProdData.emitter.off('message', onProdDataHandler);
 				// console.log('Zatvaram data emitter');
+			}
+			if (shiftCountInterval) {
+				clearInterval(shiftCountInterval);
 			}
 		}
 	});

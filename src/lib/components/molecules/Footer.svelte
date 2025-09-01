@@ -1,5 +1,19 @@
+<script>
+	import { Github } from '@lucide/svelte';
+	import Button from '../ui/button/button.svelte';
+	import { Bug } from 'lucide-svelte';
+</script>
+
 <div
-	class="from-muted-foreground/40 to-muted-foreground mt-64 flex h-[200px] w-full flex-col items-center justify-center bg-gradient-to-b"
+	class="bg-secondary glass-effect mt-44 flex h-[150px] w-full flex-col items-center justify-center"
 >
-	<h1 class="text-xl lg:text-5xl">Footer</h1>
+	<div class="flex flex-col items-center">
+		<Button variant="link" href="https://github.com/tomix421q/alarmHub"
+			><Github />Project Github</Button
+		>
+		<Button variant="link"
+			><a href="mailto:tomas.zilka@yanfeng.com" class="flex items-center gap-x-2"><Bug />Send bug</a
+			></Button
+		>
+	</div>
 </div>

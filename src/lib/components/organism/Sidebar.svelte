@@ -29,7 +29,7 @@
 </script>
 
 <nav
-	class="from-primary to-primary z-50 mt-10 ml-2 hidden w-fit flex-col gap-y-1 rounded-lg bg-gradient-to-b p-1 lg:flex"
+	class="border z-50 mt-12 ml-2 hidden w-fit flex-col rounded-lg p-1 lg:flex glass-effect"
 >
 	<!-- <div class="flex w-full items-center justify-between">
 		<span class="text-muted font-indie ml-2 text-sm {isOpenSidebar ? 'flex' : 'hidden'}"

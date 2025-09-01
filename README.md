@@ -20,6 +20,12 @@ npm install better-auth
 - npx prisma migrate dev --name init
   npx prisma migrate deploy
 
+rm -rf .svelte-kit .vite node_modules
+rm package-lock.json
+npm cache clean --force
+npm install
+npm run dev
+
 ### PACKAGES
 
 - AUTH -> betterauth
@@ -54,6 +60,8 @@ npm install better-auth
 	"registry": "https://next.shadcn-svelte.com/registry"
 }
 ```
+
+### const body_size_limit sudo nano /etc/hosts sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
 
 ### Css core
 
@@ -235,6 +243,3 @@ npx prisma generate
 
 npm install mime-types
 npm install -D @types/mime-types
-
-
-

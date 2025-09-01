@@ -27,7 +27,7 @@ export async function sendVerificationEmail(url: string, user: { email: string; 
         <div class="container">
           <h1>Potvrdenie registracie</h1>
           <p>Ahoj ${user.name || 'používateľ'},</p>
-          <p>Prave ste sa zaregistrovali do ' ' stlacenim tlacidla potvrdite registraciu</p>
+          <p>Prave ste sa zaregistrovali do aplikacie faultify stlacenim tlacidla potvrdite registraciu</p>
           <p><a href="${url}" class="button">Potvrdit</a></p>
           <p>Alebo skopírujte tento odkaz do prehliadača:</p>
           <p>${url}</p>
@@ -41,7 +41,7 @@ export async function sendVerificationEmail(url: string, user: { email: string; 
     const mailOptions = {
       from: 'zilka.tomas421@gmail.com',
       to: user.email,
-      subject: 'Potvrdenie registracie',
+      subject: 'Confirm to registration',
       html: html,
     }
 

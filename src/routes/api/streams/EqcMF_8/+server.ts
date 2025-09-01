@@ -1,8 +1,4 @@
-import {
-	afternoonShiftCounting,
-	morningShiftCounting,
-	nightShiftCounting
-} from '$lib/server/productionCount/eqc_8';
+import { eqc8mf_aggregatorCount } from '$lib/server/productionCount';
 import { WS_eqc8ClientAlert, WS_eqc8ClientProdData } from '$lib/server/websocketClients';
 import type { RequestHandler } from '@sveltejs/kit';
 
@@ -19,9 +15,9 @@ interface EmittedWebSocketData {
 	};
 }
 interface ShiftCountData {
-	morning: typeof morningShiftCounting;
-	afternoon: typeof afternoonShiftCounting;
-	night: typeof nightShiftCounting;
+	morning: typeof eqc8mf_aggregatorCount.morningShiftCounting;
+	afternoon: typeof eqc8mf_aggregatorCount.afternoonShiftCounting;
+	night: typeof eqc8mf_aggregatorCount.nightShiftCounting;
 	timestamp: string;
 }
 
@@ -63,9 +59,9 @@ export const GET: RequestHandler = ({ request }) => {
 			// shift part count
 			shiftCountInterval = setInterval(() => {
 				const shiftData: ShiftCountData = {
-					morning: morningShiftCounting,
-					afternoon: afternoonShiftCounting,
-					night: nightShiftCounting,
+					morning: eqc8mf_aggregatorCount.morningShiftCounting,
+					afternoon: eqc8mf_aggregatorCount.afternoonShiftCounting,
+					night: eqc8mf_aggregatorCount.nightShiftCounting,
 					timestamp: new Date().toISOString()
 				};
 

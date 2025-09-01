@@ -53,7 +53,7 @@
 						>
 						<div>
 							<HoverCardContent
-								class="flex w-xl flex-col  gap-y-5 overflow-auto overflow-y-auto lg:max-h-[43.75rem]"
+								class="flex w-xl flex-col  gap-y-5 overflow-auto overflow-y-auto lg:max-h-[43.75rem] bg-muted"
 							>
 								{#each DB_dataStatus.data.notes.filter((n) => msg.id === n.alertId.toString()) as note}
 									<div class="text-muted-foreground flex flex-col text-xs">
@@ -75,7 +75,7 @@
 		{/each}
 	</section>
 	<Button
-		variant="ghost"
+		variant="outline"
 		size="icon"
 		class="absolute bottom-0 left-[45%] z-20 -mb-4 md:left-[50%] {messages.length > 21
 			? 'flex'

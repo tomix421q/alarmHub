@@ -19,13 +19,19 @@ export type Note = {
 	id: number;
 	createdAt: Date;
 	alertId: number;
+	alertCategory?: string | null;
 	alertDescription: string;
-	machineId: string;
+	// machineId: string;
 	updateAt: Date;
 	userId: string;
 	user: User;
+	likes: likes[];
 	images: NoteImages[];
 	renderedHtml?: any;
+};
+
+export type likes = {
+	userId: string;
 };
 
 export type NoteImages = {
@@ -38,6 +44,7 @@ export type MachineDbType = {
 	id: string;
 	updateAt: Date;
 	notes: Note[];
+	otherMachineIdsGroup: any;
 };
 
 export type User = {

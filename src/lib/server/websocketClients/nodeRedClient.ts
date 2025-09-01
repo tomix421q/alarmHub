@@ -72,7 +72,7 @@ export class ManagedWebSocketClient {
 				});
 				// console.log(`Stroj ${this.options.name} zaregistrovaný/aktualizovaný v DB`);
 			} catch (e) {
-				console.error('Chyba pri upserte stroja:', e);
+				console.error('Machine upsert fault:', e);
 			}
 			this.emitter.emit('message', { status: this.getStatus() });
 			this.emitter.emit('open');
